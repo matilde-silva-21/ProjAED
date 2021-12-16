@@ -11,9 +11,6 @@ Airport::Airport(string name) {
     //this->transporte = BST<Transportation>();
 }
 
-void Airport::setPassageiros(std::vector<Passenger> &passageiros) {
-    this->passageiros = passageiros;
-}
 
 void Airport::setAvioes(std::vector<Airplane> &avioes) {
     Airport::avioes = avioes;
@@ -65,9 +62,6 @@ void Airport::setDone(queue<Service> v1) {
     Done=v1;
 }
 
-std::vector<Passenger> Airport::getPassageiros() {
-    return this->passageiros;
-}
 
 void Airport::setEmpregados(vector<Employee> &empregados){
     this->empregados = empregados;

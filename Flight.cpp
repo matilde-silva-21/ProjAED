@@ -2,6 +2,7 @@
 // Created by Matilde on 19/11/2021.
 //
 
+#include <vector>
 #include "Flight.h"
 
 void Flight::setNumVoo(int voo) {
@@ -44,4 +45,12 @@ void Flight::setDuracao(int hour, int minute) {
 
 void Flight::setDestino(std::string destino) {
     Flight::destino = destino;
+}
+
+void Flight::setPassageiros(std::vector<Passenger> &passageiros) {
+    this->passageiros = passageiros;
+}
+
+std::vector<Passenger> Flight::getPassageiros() {
+    return this->passageiros;
 }

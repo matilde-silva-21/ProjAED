@@ -18,7 +18,6 @@
 class Airport {
     std::string name;
     std::vector<Airplane> avioes; //avioes pertencentes ao aeroporto
-    std::vector<Passenger> passageiros; //passageiros no aeroporto
     std::vector<Employee> empregados; //passageiros no aeroporto
 
     //BST<Transportation> transporte; //todos os transportes do aeroporto
@@ -28,11 +27,9 @@ class Airport {
 public:
     void setAvioes(std::vector<Airplane>& avioes);
     void setTransporte(BST<Transportation>& transporte);
-    void setPassageiros(std::vector<Passenger> &passageiros);
     explicit Airport(string name);
     std::vector<Airplane> getAvioes();
     //BST<Transportation> getTransporte();
-    std::vector<Passenger> getPassageiros();
     void addService(Service s1); //adicionar servico a ToDO
     void removeService(); //remover servico de Tdo e verificar se foi removido corretamente
     void removeDone(); //remover servico de Done
