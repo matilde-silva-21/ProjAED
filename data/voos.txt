@@ -1,0 +1,5 @@
+VOOS // numeroDeVoo Data(dd-mm-aaaa) Hora(hh:mm) Duracao(minutos) origem destino
+9988 21-02-2022 14:30 130 porto miami
+4949 21-02-2022 14:30 130 porto barcelona
+5789 21-02-2022 12:30 130 porto lisboa
+7262 20-02-2022 14:50 130 porto conxixina
