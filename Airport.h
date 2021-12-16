@@ -19,7 +19,7 @@ class Airport {
     std::string name;
     std::vector<Airplane> avioes; //avioes pertencentes ao aeroporto
     std::vector<Employee> empregados; //passageiros no aeroporto
-
+    std::vector<Passenger> passageiros; //passageiros no voo
     //BST<Transportation> transporte; //todos os transportes do aeroporto
     queue<Service> ToDo, Done;
     std::vector<CarrinhoTransporte> carrinhos;
@@ -43,6 +43,9 @@ public:
 
     void setEmpregados(vector<Employee> &empregados);
     std::vector<Employee> getEmpregados;
+
+    void setPassageiros(std::vector<Passenger> &passageiros);
+    std::vector<Passenger> getPassageiros();
 
 
 /*esta funcao assume que existirá um ficheiro para cada aviao , ficheiro com nome no formato ("Aviao"+matricula)

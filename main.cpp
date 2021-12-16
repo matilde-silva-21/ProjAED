@@ -100,11 +100,6 @@ int main() {
     Airport a1("Porto");
     auto avioes  =  ReadPlanes();
     a1.setAvioes(avioes);
-    auto passageiros = ReadPassageiros();
-    a1.setPassageiros(passageiros);
-    auto empregados = ReadEmployees();
-    a1.setEmpregados(empregados);
-    auto services =  ReadServices(a1.getEmpregados);
 
     a1.readFlights("HH-33-HL");
 

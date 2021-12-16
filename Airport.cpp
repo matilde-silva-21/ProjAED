@@ -104,5 +104,13 @@ bool Airport::readFlights(string matricula) {
     }
     else{cout<<"Plane does not exist!"<<endl; return false;}
 
+    return false;
 }
 
+void Airport::setPassageiros(std::vector<Passenger> &passageiros) {
+    this->passageiros = passageiros;
+}
+
+std::vector<Passenger> Airport::getPassageiros() {
+    return this->passageiros;
+}

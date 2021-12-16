@@ -8,14 +8,13 @@
 
 #include <string>
 #include "Time.h"
-#include "Person.h"
+#include "vector"
 
 class Flight {
 
     int numVoo;
     Time dataVoo, duracaoVoo;
     std::string origem,destino;
-    std::vector<Passenger> passageiros; //passageiros no aeroporto
 
 public:
 
@@ -24,8 +23,6 @@ public:
         this->dataVoo = dataVoo;
         this->duracaoVoo = duracaoVoo;
     }
-    void setPassageiros(std::vector<Passenger> &passageiros);
-    std::vector<Passenger> getPassageiros();
     void setNumVoo(int voo);
     void setData(int day, int month, int year, int hour, int minutes);
     void setDuracao(int hour, int minute);
