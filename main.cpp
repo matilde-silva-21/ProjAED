@@ -10,7 +10,10 @@
 #include "Service.h"
 #include "Transportation.h"
 #include <tuple>
+#include <cstring>
 #include "Menus.h"
+#include "algorithm"
+#include "string"
 
 std::vector<Airplane> ReadPlanes(){
     ifstream f;
@@ -96,6 +99,47 @@ std::vector<Service> ReadServices(vector<Employee> empregados){
     }
     return servicos;
 }
+/*esta funcao assume que existirá um ficheiro para cada aviao , ficheiro com nome no formato ("Aviao"+matricula)
+ alem disso atualiza automaticamente o plano de voo do aviao escolhido, em vez de retornar um vetor*/
+bool readFlights(Airport& a1, string matricula) {
+    vector<Flight> final;
+    auto it = std::find_if(a1.getAvioes().begin(), a1.getAvioes().end(), [&matricula](Airplane obj) {return obj.getMatricula() == matricula;});
+    if(it!=a1.getAvioes().end()){
+        ifstream f;
+        f.open("aviao"+matricula+".txt");
+        while(!f.eof()){
+            std::string origem, destino, element, aux="";
+            int day,month,year,starthour, startminute, durationhour,durationminute, numVoo, count=0;
+
+            getline(f, element);
+            char dud[element.size()+1];
+            std::strcpy(dud,element.c_str());
+
+            char* delim = strtok(dud, " :/");
+
+            while(delim!=NULL){
+                aux+=(delim);
+                aux+=" ";
+                delim = strtok(NULL, " :/");
+            }
+
+            stringstream ss(aux);
+
+            ss>>numVoo>>day>>month>>year>>starthour>>startminute>>durationhour>>durationminute>>origem>>destino;
+
+            Flight f1(numVoo, Time(day,month,year,starthour,startminute), Time(durationhour, durationminute));
+            f1.setDestino(destino);
+            f1.setOrigem(origem);
+
+            final.push_back(f1);
+        }
+        (*it).setPlanoVoo(final);
+        return true;
+    }
+    else{cout<<"Plane does not exist!"<<endl; return false;}
+
+}
+
 void readTickets(Airport& a1){
     ifstream f;
     f.open("ticket.txt");
@@ -121,9 +165,7 @@ int main() {
     auto avioes  =  ReadPlanes();
     a1.setAvioes(avioes);
 
-    a1.readFlights("HH-33-HL");
-
-    readTickets(a1);
+    readFlights(a1, "HH-33-HL");
 
     return 0;
 }

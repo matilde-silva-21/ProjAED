@@ -13,7 +13,6 @@
 #include "Service.h"
 #include "algorithm"
 #include "CarrinhoTransporte.h"
-#include "sstream"
 
 class Airport {
     std::string name;
@@ -51,9 +50,6 @@ public:
     std::vector<Ticket> getTickets();
 
 
-/*esta funcao assume que existirá um ficheiro para cada aviao , ficheiro com nome no formato ("Aviao"+matricula)
- alem disso atualiza automaticamente o plano de voo do aviao escolhido, em vez de retornar um vetor*/
-    bool readFlights(string matricula);
 };
 
 

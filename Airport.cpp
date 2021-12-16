@@ -67,46 +67,6 @@ void Airport::setEmpregados(vector<Employee> &empregados){
     this->empregados = empregados;
 }
 
-bool Airport::readFlights(string matricula) {
-    auto it = std::find_if(avioes.begin(), avioes.end(), [&matricula](Airplane obj) {return obj.getMatricula() == matricula;});
-    if(it!=avioes.end()){
-        Airplane a = (*it);
-        ifstream f;
-        f.open("aviao"+matricula+".txt");
-        while(!f.eof()){
-            std::string origem, destino, element, aux="";
-            int day,month,year,starthour, startminute, durationhour,durationminute, numVoo, count=0;
-
-            getline(f, element);
-            char dud[element.size()+1];
-            strcpy(dud,element.c_str());
-
-            char* delim = strtok(dud, " :/");
-
-            while(delim!=NULL){
-                aux+=(delim);
-                aux+=" ";
-                delim = strtok(NULL, " :/");
-            }
-
-            stringstream ss(aux);
-
-            ss>>numVoo>>day>>month>>year>>starthour>>startminute>>durationhour>>durationminute>>origem>>destino;
-
-            Flight f1(numVoo, Time(day,month,year,starthour,startminute), Time(durationhour, durationminute));
-            f1.setDestino(destino);
-            f1.setOrigem(origem);
-
-            a.addFlight(f1);
-
-            return true;
-        }
-    }
-    else{cout<<"Plane does not exist!"<<endl; return false;}
-
-    return false;
-}
-
 void Airport::setPassageiros(std::vector<Passenger> &passageiros) {
     this->passageiros = passageiros;
 }
