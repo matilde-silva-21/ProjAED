@@ -10,6 +10,7 @@
 #include "Service.h"
 #include "Transportation.h"
 #include <tuple>
+#include "Menus.h"
 
 std::vector<Airplane> ReadPlanes(){
     ifstream f;
@@ -95,7 +96,26 @@ std::vector<Service> ReadServices(vector<Employee> empregados){
     }
     return servicos;
 }
+void readTickets(Airport& a1){
+    ifstream f;
+    f.open("ticket.txt");
+    string element, lugar, classe;
+    int IDTicket, numvooPassageiro;
+    bool bagagem;
+    float price;
 
+    while(!f.eof()){
+        getline(f,element);
+        stringstream ss(element);
+
+        ss>>IDTicket>>bagagem>>numvooPassageiro>>classe>>lugar>>price;
+
+        Ticket t(IDTicket,bagagem,numvooPassageiro,classe,lugar,price);
+
+        a1.addTicket(t);
+    }
+
+}
 int main() {
     Airport a1("Porto");
     auto avioes  =  ReadPlanes();
@@ -103,5 +123,9 @@ int main() {
 
     a1.readFlights("HH-33-HL");
 
+    readTickets(a1);
+
     return 0;
 }
+
+

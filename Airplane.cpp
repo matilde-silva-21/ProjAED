@@ -3,6 +3,7 @@
 //
 
 #include "Airplane.h"
+#include "iostream"
 
 
 
@@ -49,7 +50,7 @@ bool compare(Flight f1, Flight f2){
     return f1.getNumVoo()<f2.getNumVoo();
 }
 
-bool Airplane::addFlight(Flight f1) {
+bool Airplane::addFlight(Flight& f1) {
     PlanoVoo.push_back(f1);
     std::sort(PlanoVoo.begin(),PlanoVoo.end(), compare);
     return true;

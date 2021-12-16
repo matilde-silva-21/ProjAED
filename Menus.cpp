@@ -3,7 +3,7 @@
 #include "iterator"
 #include "Airplane.h"
 
-int planesMenu2(Airplane a1){
+int planesMenu2(Airplane a1, int &check) {
     int choice;
 
     cout << "_______________________________________________\n" << endl;
@@ -34,7 +34,12 @@ int planesMenu2(Airplane a1){
         }
     }
 
+    else if (choice == 0){
+        return 0;
+    }
+
     else if (choice == 4){
+        check++;
         return 0;
     }
 
@@ -46,28 +51,33 @@ int planesMenu2(Airplane a1){
 int planesMenu1(Airport r1) {
     int number;
 
-    cout << "_______________________________________________\n" << endl;
+    cout << "______________________________________________\n" << endl;
     cout << setw(20) << right << "Planes" << endl;
     cout << "_______________________________________________\n" << endl;
-    cout << "All planes on record, identified by their license plate: "<<endl;
+    cout << "All planes on record, identified by their license plate: \n"<<endl;
 
     for (int i=0; i<r1.getAvioes().size();i++){
         cout<<"Plane "<<i+1<<": "<<r1.getAvioes()[i].getMatricula()<<endl;
     }
 
     cout<<endl<<"If you wish to delete or know more about a certain plane, please enter its number. \nIf you wish to add a plane, "
-                "please enter "<<r1.getAvioes().size()<<".\n If you wish to go back, please enter 0.\n Please enter a number: ";
+                "please enter "<<r1.getAvioes().size()+1<<".\nIf you wish to go back, please enter 0.\nPlease enter a number: ";
 
     cin>>number;
 
-    if(number!=0 && number<r1.getAvioes().size()){
+    if(number!=0 && number<=r1.getAvioes().size()){
         auto it = r1.getAvioes().begin();
-        advance(it,number-1);
+        int check = 0;
+        while(planesMenu2(*(it+number-1), check)){}
+        if(check!=0){
+            r1.getAvioes().erase(it);
 
-        if(!planesMenu2(*it)){r1.getAvioes().erase(it); cout<<"\nPlane successfully eliminated!"<<endl;}
+            cout<<"\nPlane successfully eliminated!"<<endl;
+        }
+        return 1;
     }
 
-    if (number==0){return 1;}
+    if (number==0){return 0;}
 
     return 1;
 }
@@ -91,10 +101,12 @@ int airportMenu(Airport a1) {
     cin>>choice;
 
     if(choice == 1){
-        planesMenu1(a1);
+        while(planesMenu1(a1)){}
     }
 
-    return 0; //falta todos os return pq nao sei o que meter ainda
+    if (choice==0){return 1;}
+
+    return 0;
 }
 
 int publicTransMenu() {

@@ -23,7 +23,7 @@ class Airport {
     //BST<Transportation> transporte; //todos os transportes do aeroporto
     queue<Service> ToDo, Done;
     std::vector<CarrinhoTransporte> carrinhos;
-
+    std::vector<Ticket> tickets;
 public:
     void setAvioes(std::vector<Airplane>& avioes);
     void setTransporte(BST<Transportation>& transporte);
@@ -46,6 +46,9 @@ public:
 
     void setPassageiros(std::vector<Passenger> &passageiros);
     std::vector<Passenger> getPassageiros();
+
+    void addTicket(Ticket t1);
+    std::vector<Ticket> getTickets();
 
 
 /*esta funcao assume que existirá um ficheiro para cada aviao , ficheiro com nome no formato ("Aviao"+matricula)

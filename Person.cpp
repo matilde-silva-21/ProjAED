@@ -3,6 +3,8 @@
 //
 
 #include "Person.h"
+#include "Time.h"
+#include "Flight.h"
 
 Person::Person(std::string name, std::string email, std::string tipoID, int phone, std::string ID) {
     this->name = name;
@@ -51,15 +53,14 @@ Employee::Employee(std::string name, std::string &EmployeeID) : Person(name, "@"
     setID(EmployeeID);
 }
 
-void Passenger::setTicket(Ticket ticket) {
-    this->ticket=ticket;
+void Passenger::setTicket(int IDticket) {
+    this->IDticket=IDticket;
 }
 
-Ticket Passenger::getTicket() {
-    return ticket;
+int Passenger::getTicket() {
+    return IDticket;
 }
 
-Passenger::Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID) : Person(name,email, tipoID, phone, ID), ticket(Ticket(Flight(2, Time(1,12,2002,15,30), Time(12,30)))){
-
+Passenger::Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID) : Person(name,email, tipoID, phone, ID){
 
 }

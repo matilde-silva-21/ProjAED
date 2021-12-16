@@ -34,12 +34,12 @@ public:
 };
 
 class Passenger: public Person{
-    Ticket ticket;  //isto implica que o mesmo bilhete esteja associado a 1 ou mais pessoas (viagens de grupo)
+    int IDticket;  //isto implica que o mesmo bilhete esteja associado a 1 ou mais pessoas (viagens de grupo)
     bool checkin; //se o passageiro optou por checkin automatico ou nao
 
 public:
-    void setTicket(Ticket ticket);
-    Ticket getTicket();
+    void setTicket(int IDticket);
+    int getTicket();
 
     Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID);
 };

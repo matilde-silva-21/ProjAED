@@ -114,3 +114,11 @@ void Airport::setPassageiros(std::vector<Passenger> &passageiros) {
 std::vector<Passenger> Airport::getPassageiros() {
     return this->passageiros;
 }
+
+void Airport::addTicket(Ticket t1) {
+    tickets.push_back(t1);
+}
+
+std::vector<Ticket> Airport::getTickets() {
+    return tickets;
+}

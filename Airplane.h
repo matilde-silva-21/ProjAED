@@ -30,7 +30,7 @@ public:
     int getCapacidade();
     std::vector<Flight> getPlanoVoo();
 
-    bool addFlight(Flight f1);
+    bool addFlight(Flight& f1);
     bool removeFlight(Flight f1);
     void deletePlanoVoo();
 };
