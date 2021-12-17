@@ -21,7 +21,7 @@ void Airport::setTransporte(BST<Transportation> &transporte) {
 }
 
 std::vector<Airplane> Airport::getAvioes() {
-    return Airport::avioes;
+    return this->avioes;
 }
 /*
 BST<Transportation> Airport::getTransporte() {

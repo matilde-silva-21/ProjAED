@@ -101,10 +101,12 @@ std::vector<Service> ReadServices(vector<Employee> empregados){
 }
 /*esta funcao assume que existirá um ficheiro para cada aviao , ficheiro com nome no formato ("Aviao"+matricula)
  alem disso atualiza automaticamente o plano de voo do aviao escolhido, em vez de retornar um vetor*/
-bool readFlights(Airport& a1, string matricula) {
+void readFlights(Airport& a1, string matricula) {
     vector<Flight> final;
-    auto it = std::find_if(a1.getAvioes().begin(), a1.getAvioes().end(), [&matricula](Airplane obj) {return obj.getMatricula() == matricula;});
-    if(it!=a1.getAvioes().end()){
+    vector<Airplane> avioes = a1.getAvioes();
+    auto it = std::find_if(avioes.begin(), avioes.end(), [&matricula](Airplane obj) {return obj.getMatricula() == matricula;});
+
+    if(it!=avioes.end()){
         ifstream f;
         f.open("aviao"+matricula+".txt");
         while(!f.eof()){
@@ -134,9 +136,9 @@ bool readFlights(Airport& a1, string matricula) {
             final.push_back(f1);
         }
         (*it).setPlanoVoo(final);
-        return true;
+        a1.setAvioes(avioes);
     }
-    else{cout<<"Plane does not exist!"<<endl; return false;}
+    else{cout<<"Plane does not exist!"<<endl; }
 
 }
 
