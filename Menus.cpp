@@ -1,10 +1,12 @@
+#include <fstream>
 #include "Menus.h"
 #include "Airport.h"
 #include "iterator"
 #include "Airplane.h"
 
-int planesMenu2(Airplane a1, int &check) {
-    int choice;
+/*feito*/
+int Menus::planesMenu2(Airplane& a1, int &check) {
+    int choice, crux;
 
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Plane "<< a1.getMatricula()<< endl;
@@ -23,7 +25,7 @@ int planesMenu2(Airplane a1, int &check) {
     if(choice==1){cout<<"Type of plane: "<<a1.getTipo()<<endl;}
     else if(choice==2){cout<<"Capacity: "<<a1.getCapacidade()<<" people."<<endl;}
     else if(choice == 3){
-        cout << "Flight plan of plane "<<a1.getMatricula()<< endl;
+        cout << endl<<"Flight plan of plane "<<a1.getMatricula()<< endl;
         for(auto & it : a1.getPlanoVoo()){
             cout<< "Flight number "<< it.getNumVoo() <<": "<<endl;
             cout<<"Date: ";
@@ -43,12 +45,15 @@ int planesMenu2(Airplane a1, int &check) {
         return 0;
     }
 
-    cout<<endl<<"To go back to the main menu, enter 0: ";
+    cout<<endl<<"To go back, enter 0: ";
+
+    cin>>crux;
 
     return 1;
 }
 
-int planesMenu1(Airport r1) {
+/*falta a adicao de um aviao e remocao de um do txt file*/
+int Menus::planesMenu1(Airport& r1) {
     int number;
 
     cout << "______________________________________________\n" << endl;
@@ -61,17 +66,20 @@ int planesMenu1(Airport r1) {
     }
 
     cout<<endl<<"If you wish to delete or know more about a certain plane, please enter its number. \nIf you wish to add a plane, "
-                "please enter "<<r1.getAvioes().size()+1<<".\nIf you wish to go back, please enter 0.\nPlease enter a number: ";
+                "please enter "<<r1.getAvioes().size()+1<<".\nIf you wish to go back, please enter 0.\n\nPlease enter a number: ";
 
     cin>>number;
 
     if(number!=0 && number<=r1.getAvioes().size()){
-        auto it = r1.getAvioes().begin();
+        auto copy = r1.getAvioes();
+        auto it = copy.begin();
         int check = 0;
-        while(planesMenu2(*(it+number-1), check)){}
+        it = (it+number-1);
+        while(planesMenu2(*(it), check)){}
         if(check!=0){
-            r1.getAvioes().erase(it);
-
+            copy.erase(it);
+            r1.setAvioes(copy);
+            cutfromfile(number, it->getMatricula());
             cout<<"\nPlane successfully eliminated!"<<endl;
         }
         return 1;
@@ -82,7 +90,7 @@ int planesMenu1(Airport r1) {
     return 1;
 }
 
-int airportMenu(Airport a1) {
+int Menus::airportMenu(Airport& a1) {
     int choice;
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Airport" << endl;
@@ -109,7 +117,7 @@ int airportMenu(Airport a1) {
     return 0;
 }
 
-int publicTransMenu() {
+int Menus::publicTransMenu() {
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Public Transportation" << endl;
     cout << "_______________________________________________\n" << endl;
@@ -122,7 +130,7 @@ int publicTransMenu() {
     return 1;
 }
 
-int ticketsMenu() {
+int Menus::ticketsMenu() {
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Tickets" << endl;
     cout << "_______________________________________________\n" << endl;
@@ -130,4 +138,27 @@ int ticketsMenu() {
     cout << "\n0 - Exit\n";
     cout << "_______________________________________________\n" << endl;
     return 0;
+}
+
+void Menus::cutfromfile(int index, const string& matricula) {
+    int count = 1;
+    std::vector<std::string> temp;
+    string ele;
+
+    ifstream f("aviao"+matricula+".txt");
+
+    while(!f.eof()){
+        if(count==index){continue;}
+        else{
+            getline(f, ele);
+            temp.push_back(ele);
+            count++;
+        }
+    }
+
+    f.close();
+
+    for (string& line: temp){
+        //escrever em aviao com a funcao do domingos
+    }
 }

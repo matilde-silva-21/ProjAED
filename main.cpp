@@ -169,6 +169,10 @@ int main() {
 
     readFlights(a1, "HH-33-HL");
 
+    //cout<<a1.getAvioes().front().getMatricula();
+
+    while(airportMenu(a1)){}
+
     return 0;
 }
 
