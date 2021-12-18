@@ -4,8 +4,23 @@
 
 #include "Transportation.h"
 
-Transportation::Transportation(std::string& tipo, float& distance, Time& schedule): schedule(schedule) {
+Transportation::Transportation(std::string tipo, float distance, Time& schedule): schedule(schedule) {
         this->tipo = tipo;
         this->distance = distance;
         this->schedule = schedule;
+}
+std::string Transportation::getTipo() const{
+    return tipo;
+}
+
+float Transportation::getDistance() const{
+    return distance;
+}
+
+Time Transportation::getSchedule() const{
+    return schedule;
+}
+
+bool Transportation::operator<(const Transportation& re) {
+    return this->distance<re.getDistance();
 }

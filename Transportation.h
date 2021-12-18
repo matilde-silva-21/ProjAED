@@ -14,7 +14,14 @@ class Transportation {
     float distance; //distancia do transporte ao aeroporto
     Time schedule; //horario do tranporte
 
-    public: Transportation(std::string& tipo, float& distance, Time& schedule);
+    public:
+    Transportation(std::string tipo, float distance, Time& schedule);
+
+    std::string getTipo() const;
+    float getDistance() const;
+    Time getSchedule() const;
+
+    bool operator<(const Transportation& re);
 
 
 };

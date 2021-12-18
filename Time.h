@@ -5,6 +5,7 @@
 #ifndef AED2122_G53_TIME_H
 #define AED2122_G53_TIME_H
 #include "iostream"
+#include "string"
 
 
 class Time {
@@ -16,18 +17,18 @@ public:
     Time(int day, int month, int year, int hour, int minute);
     Time(int hour, int minute);
 
-    int getday(){return day;}
+    int getday() {return day;}
     int getmonth(){return month;}
     int getyear(){return year;}
     int gethour(){return hour;}
     int getminute(){return minute;}
 
-    void printDate(){
-        std::cout<<day<<"/"<<month<<"/"<<year;
+    std::string printDate(){
+        return std::to_string(day)+"/"+ std::to_string(month)+"/"+ std::to_string(year);
     }
 
-    void printhour(){
-        std::cout<<hour<<":"<<minute;
+    std::string printhour(){
+        return std::to_string(hour)+":"+ std::to_string(minute);
     }
 
     bool operator<(Time& t1);

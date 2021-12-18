@@ -25,6 +25,7 @@ std::vector<Airplane> ReadPlanes(){
         int capacidade;
         string tipo;
         getline(f, element);
+        if(element.empty()){break;}
         stringstream aux(element);
 
         aux >> matricula >> tipo >> capacidade;
@@ -32,7 +33,22 @@ std::vector<Airplane> ReadPlanes(){
         Airplane a(matricula, tipo, capacidade);
         avioes.push_back(a);
     }
+    f.close();
     return avioes;
+}
+
+void WritePlanes(Airplane &a){
+    fstream f("avioes.txt", ios::app);
+    string element;
+    element  = a.getMatricula() + ' ' + a.getTipo() + ' ' + to_string(a.getCapacidade());
+    f << element << endl;
+}
+
+void WritePassenger(Passenger &p){
+    fstream f("passageiros.txt", ios::app);
+    string element;
+    element  = p.getName() + ' ' + p.getEmail() + ' ' + p.getTipoID() + ' ' + p.getID() + ' ' + to_string(p.getPhone());
+    f << element << endl;
 }
 
 std::vector<Passenger> ReadPassageiros(){
@@ -45,6 +61,7 @@ std::vector<Passenger> ReadPassageiros(){
         int phone;
 
         getline(f, element);
+        if(element.empty()){break;}
         stringstream aux(element);
 
         aux >> nome >> email >> tipoID >> ID >> phone;
@@ -52,6 +69,7 @@ std::vector<Passenger> ReadPassageiros(){
         Passenger p1 (nome, email, tipoID, phone, ID);
         passageiros.push_back(p1);
     }
+    f.close();
     return passageiros;
 }
 
@@ -64,6 +82,7 @@ std::vector<Employee> ReadEmployees(){
         string name, employeeID;
 
         getline(f, element);
+        if(element.empty()){break;}
         stringstream aux(element);
 
         aux >> name >> employeeID;
@@ -71,6 +90,7 @@ std::vector<Employee> ReadEmployees(){
         Employee a1(name, employeeID);
         empregados.push_back(a1);
     }
+    f.close();
     return empregados;
 }
 
@@ -85,6 +105,7 @@ std::vector<Service> ReadServices(vector<Employee> empregados){
 
 
         getline(f, element);
+        if(element.empty()){break;}
         stringstream aux(element);
         vector<Employee>::iterator it = empregados.begin();
         while(it != empregados.end()){
@@ -97,6 +118,7 @@ std::vector<Service> ReadServices(vector<Employee> empregados){
         Service c(tipo, t, it->getID());
         servicos.push_back(c);
     }
+    f.close();
     return servicos;
 }
 /*esta funcao assume que existirá um ficheiro para cada aviao , ficheiro com nome no formato ("Aviao"+matricula)
@@ -114,6 +136,7 @@ void readFlights(Airport& a1, string matricula) {
             int day,month,year,starthour, startminute, durationhour,durationminute, numVoo, count=0;
 
             getline(f, element);
+            if(element.empty()){break;}
             char dud[element.size()+1];
             std::strcpy(dud,element.c_str());
 
@@ -132,14 +155,13 @@ void readFlights(Airport& a1, string matricula) {
             Flight f1(numVoo, Time(day,month,year,starthour,startminute), Time(durationhour, durationminute));
             f1.setDestino(destino);
             f1.setOrigem(origem);
-
+            f.close();
             final.push_back(f1);
         }
         (*it).setPlanoVoo(final);
         a1.setAvioes(avioes);
     }
     else{cout<<"Plane does not exist!"<<endl; }
-
 }
 
 void readTickets(Airport& a1){
@@ -152,6 +174,7 @@ void readTickets(Airport& a1){
 
     while(!f.eof()){
         getline(f,element);
+        if(element.empty()){break;}
         stringstream ss(element);
 
         ss>>IDTicket>>bagagem>>numvooPassageiro>>classe>>lugar>>price;
@@ -160,20 +183,28 @@ void readTickets(Airport& a1){
 
         a1.addTicket(t);
     }
-
 }
 int main() {
-    Airport a1("Porto");
-    auto avioes  =  ReadPlanes();
-    a1.setAvioes(avioes);
+    Time hor(0,0), fred(12,30);
+    const Transportation dummy("", 0, hor), t1("metro", 0.4, fred);
 
-    readFlights(a1, "HH-33-HL");
+
+
+    Airport a1("Porto",dummy);
+    auto avioes = ReadPlanes();
+    a1.setAvioes(avioes);
+    BST<Transportation> b1 = a1.getTransporte().insert();
+
+    for(auto it=b1.begin() ; it!=b1.end(); it++){
+
+    cout << "\n\n"<<(*it).getTipo()<<"\n\n";}
+
 
     //cout<<a1.getAvioes().front().getMatricula();
 
-    while(airportMenu(a1)){}
+    while (Menus::airportMenu(a1)) {
+        readTickets(a1);
+    }
 
-    return 0;
 }
-
 

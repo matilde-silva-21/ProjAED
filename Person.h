@@ -27,6 +27,9 @@ public:
     int getPhone();
     std::string getEmail();
     std::string getID();
+    std::string getTipoID(){
+        return this->tipoID;
+    }
 
     bool operator==(Person& p1){return ID==p1.ID;}
 
@@ -40,7 +43,6 @@ class Passenger: public Person{
 public:
     void setTicket(int IDticket);
     int getTicket();
-
     Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID);
 };
 class Employee: public Person {

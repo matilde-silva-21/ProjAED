@@ -6,9 +6,8 @@
 #include "Airport.h"
 #include <string.h>
 
-Airport::Airport(string name) {
+Airport::Airport(string name, const Transportation& t1): transporte(BST<Transportation>(t1)) {
     this->name = name;
-    //this->transporte = BST<Transportation>();
 }
 
 
@@ -17,16 +16,16 @@ void Airport::setAvioes(std::vector<Airplane> &avioes) {
 }
 
 void Airport::setTransporte(BST<Transportation> &transporte) {
-    //Airport::transporte = transporte;
+    Airport::transporte = transporte;
 }
 
 std::vector<Airplane> Airport::getAvioes() {
     return this->avioes;
 }
-/*
+
 BST<Transportation> Airport::getTransporte() {
-    //return Airport::transporte;
-}*/
+    return transporte;
+}
 
 
 void Airport::addService(Service s1) {
@@ -81,4 +80,20 @@ void Airport::addTicket(Ticket t1) {
 
 std::vector<Ticket> Airport::getTickets() {
     return tickets;
+}
+
+void Airport::addPlane(Airplane &a1) {
+    avioes.push_back(a1);
+}
+
+int Airport::numberOfFilgths() {
+    int total=0;
+    for(Airplane& a1: avioes){
+        total+=a1.getPlanoVoo().size();
+    }
+    return total;
+}
+
+void Airport::addTransporte(const Transportation &t1) {
+
 }
