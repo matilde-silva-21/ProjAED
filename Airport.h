@@ -49,6 +49,7 @@ public:
 
     void setPassageiros(std::vector<Passenger> &passageiros);
     std::vector<Passenger> getPassageiros();
+    void addPassageiro(Passenger& p1);
 
     void addTicket(Ticket t1);
     std::vector<Ticket> getTickets();

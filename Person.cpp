@@ -61,6 +61,7 @@ int Passenger::getTicket() {
     return IDticket;
 }
 
-Passenger::Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID) : Person(name,email, tipoID, phone, ID){
+
+Passenger::Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID,int IDticket) : Person(name,email, tipoID, phone, ID), IDticket(IDticket){
 
 }

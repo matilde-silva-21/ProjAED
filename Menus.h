@@ -17,7 +17,7 @@ public:
 
     static int planesMenu2(Airplane& a1, int& check, Airport& r1);
 
-    static int ticketsMenu();
+    static int ticketsMenu(Airport& a1);
 
     static void cutfromfile(Airport& a1, int index);
 
@@ -30,6 +30,10 @@ public:
     static void addFlightFile(Airplane& a1);
 
     static void deleteVoo(Airplane& a1, Airport& r1);
+
+    static void addTicket(Ticket& t1);
+
+    static void addPerson(int IDticket, Airport& a1);
 
 };
 

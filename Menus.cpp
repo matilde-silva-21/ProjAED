@@ -134,10 +134,11 @@ int Menus::airportMenu(Airport& a1) {
         while(planesMenu1(a1)){}
     }
 
-    if (choice==0){return 1;}
+    if (choice==0){return 0;}
 
     if(choice == 3){
-        while(ticketsMenu()){}
+        while(ticketsMenu(a1)){}
+        return 1;
     }
 
     return 0;
@@ -156,8 +157,9 @@ int Menus::publicTransMenu() {
     return 1;
 }
 
-int Menus::ticketsMenu() {
-    int choice;
+/*falta a parte de eliminar bilhetes(no vetor e no txt file), ou alterar os atributos do mesmo. adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
+int Menus::ticketsMenu(Airport& a1) {
+    int choice, manie, main;
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Tickets" << endl;
     cout << "_______________________________________________\n" << endl;
@@ -165,12 +167,60 @@ int Menus::ticketsMenu() {
     cout << "\n0 - Exit\n";
     cout << "_______________________________________________\n" << endl;
 
+    cout<<"\nPlease enter: ";
     cin>>choice;
 
     if(choice==0){return 0;}
     else if(choice==1){
+        int count=0, group, amount;
+        bool bagagem;
+        string classe;
+        auto copy1 = a1.getAvioes();
+        for (auto it=copy1.begin(); it!=copy1.end(); it++){
+            auto copy2=it->getPlanoVoo();
+            if(copy2.empty()){count++; continue;}
+            for(auto it2=copy2.begin(); it2!=copy2.end();it2++){
+                cout<< "Flight number "<< it2->getNumVoo() <<": "<<"\nDate: "<<it2->getData().printDate()<<" at: "<<it2->getData().printhour()<<"\nFlight duration: "<<it2->getDuracao().printhour()<<" Origin: "<<it2->getOrigem()<<" Destination: "<<it2->getDestino()<<"\n";
+            }
+        }
+        if(count==copy1.size()){
+            cout<<"\n\nCurrently, there are no planned flights.\n\nPlease enter 0 to return to main menu: ";
+            cin>>count;
+            return 0;
+        }
 
+        else{
+            auto it2=copy1.begin();
+            cout<<"Please enter the number of the flight you wish to buy a ticket for: ";
+            cin>>manie;
+
+            cout<<"\nDo you wish to have a carry-on? If yes, enter 1; if not, enter 0: ";
+            cin>>bagagem;
+            cout<<"\nWhat class do you wish to travel in? Write one of the follownig; first, economic or business: ";
+            cin>>classe;
+
+            Ticket t1(a1.getTickets().size(),bagagem, manie,classe);
+            a1.addTicket(t1);
+
+            addTicket(t1);
+
+            cout<<"If this ticket belongs to a group trip, enter 1. If not, enter 0: ";
+            cin>>group;
+
+            if(group==0){
+                addPerson(t1.getID(),a1);
+            }
+            if(group==1){
+                cout<<"\nPlease enter the number of people in yout group: ";
+                cin>>amount;
+                for(int i=1; i<amount;i++){addPerson(t1.getID(),a1);}
+            }
+        }
     }
+    cout<<"\nTo return to the main menu, enter 0: ";
+    cin>>main;
+    if(!main){return 0;}
+    return 1;
 }
 
 /*feito*/
@@ -292,7 +342,7 @@ void Menus::addFlightFile(Airplane &a1) {
     f.close();
 }
 
-/*falta a parte em que tira do ficheiro o voo*/
+/*falta a parte em que tira do ficheiro de texto o voo*/
 void Menus::deleteVoo(Airplane &a1, Airport &r1) {
     int numb;
     cout<<"Please enter the number of the flight you wish to delete: ";
@@ -301,4 +351,40 @@ void Menus::deleteVoo(Airplane &a1, Airport &r1) {
     auto it = std::find_if(a1.getPlanoVoo().begin(), a1.getPlanoVoo().end(), [&numb](Flight obj) {return obj.getNumVoo() == numb;});
 
     a1.removeFlight(*it);
+}
+
+/*feito*/
+void Menus::addTicket(Ticket &t1) {
+    fstream f("ticket.txt", ios::app);
+    f<<t1.getID()<<" "<<t1.getBagagem()<<" "<<t1.getNumVoo()<<" "<<t1.getClasse()<<endl;
+    f.close();
+}
+
+/*feito*/
+void Menus::addPerson(int IDticket, Airport& a1) {
+    std::string name,email,typeID,IDNUMB;
+    int phone;
+    cout<<"\nPlease enter the name of the passenger: ";
+    cin>>name;
+    cout<<"\nPlease enter the passenger's email: ";
+    cin>>email;
+    cout<<"\nPlease enter the type of your ID (passport, citizenship card, etc): ";
+    cin>>typeID;
+    cout<<"\nPlease enter the number of your ID: ";
+    cin>>IDNUMB;
+    cout<<"\nPlease enter your phone number: ";
+    cin>>phone;
+
+    Passenger pi(name,email,typeID,phone,IDNUMB,IDticket);
+
+    a1.addPassageiro(pi);
+
+    fstream f("passageiros.txt", ios::app);
+
+    f<<name<<" "<<email<<" "<<typeID<<" "<<phone<<" "<<IDNUMB<<" "<<IDticket<<endl;
+
+    f.close();
+
+    cout<<"\nPerson added succesfully!"<<endl;
+
 }

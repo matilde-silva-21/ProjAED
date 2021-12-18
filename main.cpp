@@ -58,15 +58,15 @@ std::vector<Passenger> ReadPassageiros(){
     string element;
     while(!f.eof()){
         string email, nome, ID, tipoID;
-        int phone;
+        int phone, IDticket;
 
         getline(f, element);
         if(element.empty()){break;}
         stringstream aux(element);
 
-        aux >> nome >> email >> tipoID >> ID >> phone;
+        aux >> nome >> email >> tipoID >> ID >> IDticket >>phone;
 
-        Passenger p1 (nome, email, tipoID, phone, ID);
+        Passenger p1 (nome, email, tipoID, phone, ID, IDticket);
         passageiros.push_back(p1);
     }
     f.close();
@@ -177,9 +177,9 @@ void readTickets(Airport& a1){
         if(element.empty()){break;}
         stringstream ss(element);
 
-        ss>>IDTicket>>bagagem>>numvooPassageiro>>classe>>lugar>>price;
+        ss>>IDTicket>>bagagem>>numvooPassageiro>>classe;
 
-        Ticket t(IDTicket,bagagem,numvooPassageiro,classe,lugar,price);
+        Ticket t(IDTicket,bagagem,numvooPassageiro,classe);
 
         a1.addTicket(t);
     }

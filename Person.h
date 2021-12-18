@@ -43,7 +43,7 @@ class Passenger: public Person{
 public:
     void setTicket(int IDticket);
     int getTicket();
-    Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID);
+    Passenger(std::string name, std::string email, std::string tipoID, int phone, std::string ID, int IDticket);
 };
 class Employee: public Person {
     std::string EmployeeID;

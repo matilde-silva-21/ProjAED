@@ -97,3 +97,7 @@ int Airport::numberOfFilgths() {
 void Airport::addTransporte(const Transportation &t1) {
 
 }
+
+void Airport::addPassageiro(Passenger &p1) {
+    passageiros.push_back(p1);
+}
