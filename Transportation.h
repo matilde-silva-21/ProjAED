@@ -21,7 +21,9 @@ class Transportation {
     float getDistance() const;
     Time getSchedule() const;
 
-    bool operator<(const Transportation& re);
+    bool operator<(const Transportation& re) const;
+    bool operator>(const Transportation& re) const;
+    bool operator==(const Transportation& re) const;
 
 
 };

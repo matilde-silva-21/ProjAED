@@ -12,7 +12,7 @@ Time::Time(int day, int month, int year) {
     this -> year = year;
 }
 
-bool Time::operator<(Time& t1) {
+bool Time::operator<(const Time& t1) const{
     if(year<t1.year){return true;}
     else if(year>t1.year){return false;}
     else{
@@ -30,7 +30,7 @@ bool Time::operator<(Time& t1) {
     }
 }
 
-bool Time::operator==(Time& t1) {
+bool Time::operator==(const Time& t1) const{
     return (day == t1.day && month==t1.month && year==t1.year && hour==t1.hour && minute==t1.minute);
 }
 

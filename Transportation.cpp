@@ -21,6 +21,14 @@ Time Transportation::getSchedule() const{
     return schedule;
 }
 
-bool Transportation::operator<(const Transportation& re) {
+bool Transportation::operator<(const Transportation& re) const{
     return this->distance<re.getDistance();
+}
+
+bool Transportation::operator>(const Transportation &re) const {
+    return this->distance>re.getDistance();
+}
+
+bool Transportation::operator==(const Transportation &re) const {
+    return tipo==re.tipo && distance==re.distance && schedule==re.schedule;
 }

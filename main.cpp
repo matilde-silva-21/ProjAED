@@ -186,15 +186,16 @@ void readTickets(Airport& a1){
 }
 int main() {
     Time hor(0,0), fred(12,30);
-    const Transportation dummy("", 0, hor), t1("metro", 0.4, fred);
+    Transportation dummy("", 0, hor), t1("metro", 0.4, fred);
 
 
 
     Airport a1("Porto",dummy);
     auto avioes = ReadPlanes();
     a1.setAvioes(avioes);
-    BST<Transportation> b1 = a1.getTransporte().insert();
+    BST<Transportation> b1 = a1.getTransporte();
 
+    b1.insert(t1);
     for(auto it=b1.begin() ; it!=b1.end(); it++){
 
     cout << "\n\n"<<(*it).getTipo()<<"\n\n";}

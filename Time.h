@@ -31,8 +31,8 @@ public:
         return std::to_string(hour)+":"+ std::to_string(minute);
     }
 
-    bool operator<(Time& t1);
-    bool operator==(Time& t1);
+    bool operator<(const Time& t1) const;
+    bool operator==(const Time& t1) const;
 
 };
 
