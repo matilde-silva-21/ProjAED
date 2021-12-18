@@ -16,16 +16,21 @@ class Service {
 
     std::string tipo; //tipo = manutencao ou limpeza
     Time time;
-    std::string EmplyeeID;
+    std::string employeeID;
 
 public:
     bool operator<(Service& v1);
     bool operator==(Service& s1);
 
-    Service(std::string& tipo, Time& time, std::string employeeID) :  time(time) {
+    Service(std::string& tipo, Time& time, std::string& employeeID) :  tipo(tipo), time(time), employeeID(employeeID) {
         this->tipo = tipo;
         this->time = time;
+        this->employeeID = employeeID;
     }
+
+    std::string getType();
+    Time getTime();
+    std::string getID();
 };
 
 

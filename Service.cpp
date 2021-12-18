@@ -9,5 +9,17 @@ bool Service::operator<(Service &v1){
 }
 
 bool Service::operator==(Service& s1) {
-    return tipo==s1.tipo && time==s1.time && EmplyeeID==s1.EmplyeeID;
+    return tipo==s1.tipo && time==s1.time && employeeID==s1.employeeID;
+}
+
+std::string Service::getType() {
+    return tipo;
+}
+
+Time Service::getTime() {
+    return time;
+}
+
+std::string Service::getID() {
+    return employeeID;
 }

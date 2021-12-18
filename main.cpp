@@ -94,10 +94,10 @@ std::vector<Employee> ReadEmployees(){
     return empregados;
 }
 
-std::vector<Service> ReadServices(vector<Employee> empregados){
+std::vector<Service> ReadServicesToDo(){
     ifstream f;
     std::vector<Service> servicos;
-    f.open("servicos.txt");
+    f.open("servicosDone.txt");
     string element;
     while(!f.eof()){
         string tipo, employeeID;
@@ -107,15 +107,10 @@ std::vector<Service> ReadServices(vector<Employee> empregados){
         getline(f, element);
         if(element.empty()){break;}
         stringstream aux(element);
-        vector<Employee>::iterator it = empregados.begin();
-        while(it != empregados.end()){
-            if((*it).getID() == employeeID)
-                break;
-            it++;
-        }
+
         aux >> tipo >> dia >> mes >> ano >> hora >> minuto >> employeeID;
         Time t(mes, ano, dia, hora, minuto);
-        Service c(tipo, t, it->getID());
+        Service c(tipo, t, employeeID);
         servicos.push_back(c);
     }
     f.close();

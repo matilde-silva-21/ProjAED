@@ -7,6 +7,74 @@
 #include <cstring>
 #include "time.h"
 
+/*por verificar*/
+Time Menus::separateDateandHour(string date, string hour) {
+    int day=-1, month=-1, year=-1, minute=-1, hour2=-1;
+    char * pch;
+    char date1[date.length() + 1], hour1[hour.length()+1];
+    strcpy(date1, date.c_str());
+    strcpy(hour1, hour.c_str());
+
+    pch = strtok(date1,"/");
+    while (pch != NULL)
+    {
+        // set the variables
+        int num = atoi(pch);
+        if(month == -1) day = num;
+        else if(day == -1) month = num;
+        else if(year == -1) year = num;
+
+        // continue splitting the string
+        pch = strtok (NULL, "/");
+    }
+
+    pch= strtok(hour1, ":");
+    while (pch != NULL)
+    {
+        // set the variables
+        int num = atoi(pch);
+        if(hour2 == -1) hour2 = num;
+        else if(minute == -1) minute = num;
+
+        // continue splitting the string
+        pch = strtok (NULL, "/");
+    }
+
+    Time t1(day,month,year,hour2, minute);
+
+    return t1;
+}
+
+/*por verificar*/
+std::vector<Service> Menus::EliminateLastDone(){
+    ifstream f;
+    std::vector<Service> servicos;
+    f.open("servicosDone.txt");
+    string element;
+    while(!f.eof()){
+        string tipo, employeeID;
+        int hora, minuto, dia, mes, ano;
+
+
+        getline(f, element);
+        if(element.empty()){break;}
+        stringstream aux(element);
+
+        aux >> tipo >> dia >> mes >> ano >> hora >> minuto >> employeeID;
+        Time t(mes, ano, dia, hora, minuto);
+        Service c(tipo, t, employeeID);
+        servicos.push_back(c);
+    }
+    f.close();
+    servicos.erase(servicos.begin()+servicos.size()-1);
+    fstream fer("servicosDone.txt");
+    for(auto it=servicos.begin(); it!=servicos.end(); it++){
+        fer<<it->getType()<<" "<<it->getTime().printDate()<<" "<<it->getTime().printhour()<<" "<<it->getID()<<endl;
+    }
+
+    return servicos;
+}
+
 /*feito*/
 int Menus::planesMenu2(Airplane& a1, int &check, Airport& r1) {
     int choice, crux,men, another;
@@ -124,6 +192,7 @@ int Menus::airportMenu(Airport& a1) {
     cout << "4 - Employees"<<endl;
     cout << "5 - Bagage Transport Cars"<<endl;
     cout << "6 - Services"<<endl;
+    cout << "7 - Automatic check-in"<<endl;
     cout << "\n0 - Exit\n";
     cout << "_______________________________________________\n" << endl;
 
@@ -139,6 +208,10 @@ int Menus::airportMenu(Airport& a1) {
     if(choice == 3){
         while(ticketsMenu(a1)){}
         return 1;
+    }
+
+    if(choice == 6){
+        while(servicesMenu(a1)){}
     }
 
     return 0;
@@ -386,5 +459,99 @@ void Menus::addPerson(int IDticket, Airport& a1) {
     f.close();
 
     cout<<"\nPerson added succesfully!"<<endl;
+
+}
+
+/*feito mas falta verificar*/
+int Menus::servicesMenu(Airport &a1) {
+    int choice, IDemployee, hc;
+    string type, date, hour;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Services" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "1 - Add Service to To Do list\n";
+    cout << "2 - Move Service from To Do list to completed services\n";
+    cout << "3 - Display the completed services\n";
+    cout << "4 - Display the services yet to be done\n";
+    cout << "0 - Go back to main menu\n";
+
+    cout<<"\nPlease enter: ";
+    cin>>choice;
+
+    if(choice == 0){return 0;}
+
+    else if(choice == 1){
+        cout<<"\nPlease enter the type of service (cleaning or maintenance): ";
+        cin>>type;
+        cout<<"\nPlease enter the day of the service in DD/MM/YYYY format: ";
+        cin>>date;
+        cout<<"\nPlease enter the time of day of the service in HH:MM format: ";
+        cin>>hour;
+        cout<<"\nPlease enter the ID of the employee that will perform the service: ";
+        cin>>IDemployee;
+
+        Time t1 = separateDateandHour(date,hour);
+
+        Service s1(type, t1, reinterpret_cast<string &>(IDemployee));
+
+        a1.addService(s1);
+
+        fstream fire("servicosToDo.txt", ios::app);
+        fire<<type<<" "<<date<<" "<<hour<<" "<<IDemployee<<endl;
+
+        cout<<"\nService added succesfully! To return enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==2){
+        a1.removeService();
+        fstream fer("servicosToDo.txt");
+        auto copy = a1.getToDo();
+        auto cur = copy.front();
+        copy.pop();
+        while(!copy.empty()){
+            fer<<copy.front().getType()<<" "<<copy.front().getTime().printDate()<<" "<<copy.front().getTime().printhour()<<" "<<copy.front().getID()<<endl;
+        }
+        fer.close();
+
+        fstream fire("servicosDone.txt", ios::app);
+
+        fire<<cur.getType()<<" "<<cur.getTime().printDate()<<" "<<cur.getTime().printhour()<<" "<<cur.getID()<<endl;
+        fire.close();
+
+        cout<<"\nService completed succesfully! To return enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice == 3){
+        queue<Service> copy = a1.getDone();
+        if(copy.empty()){cout<<"\nNo services currently planned. To return enter 0: ";cin>>hc; return 1;}
+        else while(!copy.empty()){
+            cout<<"\nType of service: "<<copy.front().getType()<<" Time and day of service: "
+            <<copy.front().getTime().printDate()<<" at "<<copy.front().getTime().printhour()<<
+            " performed by employee number "<<copy.front().getID()<<".\n";
+
+            copy.pop();
+        }
+
+        cout <<"\n\nTo return enter 0: "; cin>>hc; return 1;
+    }
+
+    else if(choice == 4){
+        queue<Service> copy = a1.getToDo();
+        if(copy.empty()){cout<<"\nNo services currently planned. To return enter 0: ";cin>>hc; return 1;}
+        else while(!copy.empty()){
+                cout<<"\nType of service: "<<copy.front().getType()<<" Time and day of service: "
+                    <<copy.front().getTime().printDate()<<" at "<<copy.front().getTime().printhour()<<
+                    " performed by employee number "<<copy.front().getID()<<".\n";
+
+                copy.pop();
+            }
+
+        cout <<"\n\nTo return enter 0: "; cin>>hc; return 1;
+    }
+
 
 }

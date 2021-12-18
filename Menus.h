@@ -35,6 +35,14 @@ public:
 
     static void addPerson(int IDticket, Airport& a1);
 
+    static int servicesMenu(Airport& a1);
+
+    static Time separateDateandHour(string date, string hour);
+
+    static std::vector<Service> EliminateLastDone();
+
+
+
 };
 
 
