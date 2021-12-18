@@ -21,7 +21,7 @@ public:
 
     static void cutfromfile(Airport& a1, int index);
 
-    static int publicTransMenu();
+    static int publicTransMenu(Airport& a1);
 
     static void addPlane(Airport& a1);
 
@@ -39,10 +39,9 @@ public:
 
     static Time separateDateandHour(string date, string hour);
 
-    static std::vector<Service> EliminateLastDone();
+    static Time separateHour(string hour);
 
-
-
+    static int busMenu(Airport& a1);
 };
 
 

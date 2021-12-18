@@ -45,36 +45,6 @@ Time Menus::separateDateandHour(string date, string hour) {
     return t1;
 }
 
-/*por verificar*/
-std::vector<Service> Menus::EliminateLastDone(){
-    ifstream f;
-    std::vector<Service> servicos;
-    f.open("servicosDone.txt");
-    string element;
-    while(!f.eof()){
-        string tipo, employeeID;
-        int hora, minuto, dia, mes, ano;
-
-
-        getline(f, element);
-        if(element.empty()){break;}
-        stringstream aux(element);
-
-        aux >> tipo >> dia >> mes >> ano >> hora >> minuto >> employeeID;
-        Time t(mes, ano, dia, hora, minuto);
-        Service c(tipo, t, employeeID);
-        servicos.push_back(c);
-    }
-    f.close();
-    servicos.erase(servicos.begin()+servicos.size()-1);
-    fstream fer("servicosDone.txt");
-    for(auto it=servicos.begin(); it!=servicos.end(); it++){
-        fer<<it->getType()<<" "<<it->getTime().printDate()<<" "<<it->getTime().printhour()<<" "<<it->getID()<<endl;
-    }
-
-    return servicos;
-}
-
 /*feito*/
 int Menus::planesMenu2(Airplane& a1, int &check, Airport& r1) {
     int choice, crux,men, another;
@@ -203,31 +173,41 @@ int Menus::airportMenu(Airport& a1) {
         while(planesMenu1(a1)){}
     }
 
-    if (choice==0){return 0;}
+    else if (choice==0){return 0;}
 
-    if(choice == 3){
+    else if(choice == 3){
         while(ticketsMenu(a1)){}
         return 1;
     }
 
-    if(choice == 6){
+    else if(choice == 6){
         while(servicesMenu(a1)){}
+    }
+
+    else if(choice==2){
+        while(publicTransMenu(a1)){}
     }
 
     return 0;
 }
 
-int Menus::publicTransMenu() {
+int Menus::publicTransMenu(Airport& a1) {
+    int choice;
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Public Transportation" << endl;
     cout << "_______________________________________________\n" << endl;
     cout << "1 - Bus\n"; //distancia do aeroporto e horarios
     cout << "2 - Train\n"; //distancia do aeroporto e horarios
     cout << "3 - Subway\n"; //distancia do aeroporto e horarios
-    cout << "4 - Cab\n"; //distancia do aeroporto e horarios
     cout << "\n0 - Exit\n";
     cout << "_______________________________________________\n" << endl;
-    return 1;
+
+    cout<<"Pleasese enter: ";
+    cin>>choice;
+
+    if(choice == 1){
+        busMenu(a1);
+    }
 }
 
 /*falta a parte de eliminar bilhetes(no vetor e no txt file), ou alterar os atributos do mesmo. adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
@@ -555,3 +535,98 @@ int Menus::servicesMenu(Airport &a1) {
 
 
 }
+
+/*falta alterar o ficheiro de texto*/
+int Menus::busMenu(Airport &a1) {
+
+    int choice;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Bus" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "1 - Display all bus stations"<<endl;
+    cout << "2 - Add a bus station\n";
+    cout << "3 - Delete bus station\n";
+    cout << "0 - Return to Transportation Menu\n";
+    cout << "\nPlease enter: ";
+    cin>>choice;
+
+    if(choice==1){
+        int count=1,hc;
+        BST<Transportation> copy = a1.getTransporte();
+        for(auto it = copy.begin(); it!=copy.end() ; it++){
+            if((*it).getTipo()=="bus"){
+                cout<<"\nBus station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
+                    " Distance from Airport: "<<(*it).getDistance()<<endl;
+                count++;
+            }
+        }
+        cout << "\n\nTo go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==0){
+        return 0;
+    }
+    else if(choice==2){
+        string hora;
+        float distance;
+        cout<<"\nPlease enter the time at which the bus will come, in HH:MM format: ";
+        cin>>hora;
+        cout<<"\nPlease enter the distance of the bus station to the airport: ";
+        cin>>distance;
+        Time t2 = separateHour(hora);
+        Transportation t12("bus",distance,t2);
+        a1.addTransporte(t12);
+    }
+
+    else if(choice==3){
+        int count=1,hc,number;
+        BST<Transportation> copy = a1.getTransporte();
+        vector<iteratorBST<Transportation>> aux;
+        for(auto it = copy.begin(); it!=copy.end() ; it++){
+            if((*it).getTipo()=="bus"){
+                aux.push_back(it);
+                cout<<"\nBus station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
+                    " Distance from Airport: "<<(*it).getDistance()<<endl;
+                count++;
+            }
+        }
+
+        cout<<"\nPlease enter the number of the station you wish to delete: ";
+        cin>>number;
+
+        copy.remove(*aux[number-1]);
+        a1.setTransporte(copy);
+
+        cout<<"\nBus station added succesfully! To return enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+}
+
+Time Menus::separateHour(string hour) {
+    int minute=-1, hour2=-1;
+    char * pch;
+    char hour1[hour.length()+1];
+    strcpy(hour1, hour.c_str());
+
+    pch= strtok(hour1, ":");
+    while (pch != NULL)
+    {
+        // set the variables
+        int num = atoi(pch);
+        if(hour2 == -1) hour2 = num;
+        else if(minute == -1) minute = num;
+
+        // continue splitting the string
+        pch = strtok (NULL, "/");
+    }
+
+    Time t1(hour2, minute);
+
+    return t1;
+}
+
+

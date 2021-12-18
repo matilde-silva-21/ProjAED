@@ -10,7 +10,7 @@
 #include "Time.h"
 
 class Transportation {
-    std::string tipo; //metro, comboio, bus
+    std::string tipo; //bus, train, subway
     float distance; //distancia do transporte ao aeroporto
     Time schedule; //horario do tranporte
 
@@ -24,8 +24,6 @@ class Transportation {
     bool operator<(const Transportation& re) const;
     bool operator>(const Transportation& re) const;
     bool operator==(const Transportation& re) const;
-
-
 };
 
 
