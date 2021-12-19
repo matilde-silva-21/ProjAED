@@ -160,7 +160,7 @@ int Menus::airportMenu(Airport& a1) {
     cout << "2 - Public Transportation\n"; //opções de transportes publicos perto do aeroporto
     cout << "3 - Tickets\n";
     cout << "4 - Employees"<<endl;
-    cout << "5 - Bagage Transport Cars"<<endl;
+    cout << "5 - Bagage Transport Car"<<endl;
     cout << "6 - Services"<<endl;
     cout << "7 - Automatic check-in"<<endl;
     cout << "\n0 - Exit\n";
@@ -192,6 +192,8 @@ int Menus::airportMenu(Airport& a1) {
     }
 
     else if(choice==7){while(checkinMenu(a1)){} return 1;}
+
+    else if(choice==4){while(employeeMenu(a1)){} return 1;}
     return 1;
 }
 
@@ -550,6 +552,7 @@ int Menus::servicesMenu(Airport &a1) {
     }
 
 
+    return 1;
 }
 
 /*falta a parte de alterar o ficheiro de texto*/
@@ -824,5 +827,91 @@ int Menus::checkinMenu(Airport &a1) {
     cout<<"\nCheck-In successful, have a nice flight! To go back enter 0: ";
     cin>>hc;
     return 0;
+}
+
+/*falta meter e tirar as coisas do ficheiro de txt*/
+int Menus::employeeMenu(Airport &a1) {
+    int choice,hc, count=0, phone;
+    string name, numb, email;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Airport" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "1 - Display list of all employees"<<endl;
+    cout << "2 - Display list of tasks assigned to an employee"<<endl;
+    cout << "3 - Remove an employee"<<endl;
+    cout << "4 - Add an employee"<<endl;
+    cout << "0 - Go back to airport menu"<<endl;
+    cout << "\nPlease enter: ";
+    cin>>choice;
+
+    if(choice==0){return 0;}
+
+    else if(choice==1){
+        for(Employee& e1: a1.getEmpregados()){
+            cout<<"\nEmployee ID: "<<e1.getID()<<" Name: "<<e1.getName()<<endl;
+        }
+        if(a1.getEmpregados().empty()){cout<<"\nNo employees on record. ";}
+        cout<<"To go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==2){
+        cout<<"\nPlease enter the ID of the employee: ";
+        cin>>numb;
+        auto copy = a1.getToDo();
+        while(!copy.empty()){
+            if(copy.front().getID() == numb){
+                cout<<"\nType of service: "<<copy.front().getType()<<" Time and day of service: "
+                    <<copy.front().getTime().printDate()<<" at "<<copy.front().getTime().printhour()<<".\n";
+                count++;
+            }
+            copy.pop();
+        }
+
+        if(count==0){cout<<"\nNo services assigned to this employee. ";}
+        cout<<"To go back, enter 0: ";
+        cin>>hc;
+        return 1;
+
+    }
+
+    else if(choice==3){
+        cout<<"\nPlease enter the ID of the employee you wish to remove: ";
+        cin>>numb;
+        auto it = find_if(a1.getEmpregados().begin(),a1.getEmpregados().end(),[&numb](Employee& e1){return e1.getID()==numb;});
+
+        if(it!=a1.getEmpregados().end()){
+            a1.removeEmpregado(it);
+            cout<<"\nEmployee removed successfully! To go back, enter 0: ";
+            cin>>hc;
+            return 1;
+        }
+
+        else{
+            cout<<"\nEmployee does not exist. To go back, enter 0: ";
+            cin >>hc;
+            return 1;
+        }
+
+    }
+
+    else if(choice==4){
+        cout << "\nPlease enter the name of the employee: ";
+        cin>>name;
+        cout << "\nPlease enter the employee's email: ";
+        cin>>email;
+        cout << "\nPlease enter the employee's phone number: ";
+        cin>>phone;
+
+        a1.addEmpregado(Employee(name,email,phone, to_string(a1.getEmpregados().size())));
+
+        cout<<"\nEmployee added succesfully. To go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    return 1;
+
 }
 

@@ -46,7 +46,9 @@ public:
     void setDone(queue<Service> v1);
 
     void setEmpregados(vector<Employee> &empregados);
-    std::vector<Employee> getEmpregados;
+    std::vector<Employee> getEmpregados();
+    void removeEmpregado(vector<Employee>::iterator e1);
+    void addEmpregado(Employee e1);
 
     void setPassageiros(std::vector<Passenger> &passageiros);
     std::vector<Passenger> getPassageiros();

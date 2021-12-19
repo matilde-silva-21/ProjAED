@@ -111,3 +111,15 @@ int Airport::numBagaem() {
     numBagagem++;
     return numBagagem-1;
 }
+
+std::vector<Employee> Airport::getEmpregados() {
+    return empregados;
+}
+
+void Airport::removeEmpregado(vector<Employee>::iterator e1) {
+    empregados.erase(e1);
+}
+
+void Airport::addEmpregado(Employee e1) {
+    empregados.push_back(e1);
+}

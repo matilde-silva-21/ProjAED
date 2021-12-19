@@ -47,10 +47,9 @@ std::string Person::getID() {
 }
 
 
-Employee::Employee(std::string name, std::string &EmployeeID) : Person(name, "@", "CC", 32, EmployeeID) {
+Employee::Employee(std::string name, std::string email, int phone, std::string ID): Person(name,email,"employee",phone,ID) {
     setName(name);
-    this->EmployeeID = EmployeeID;
-    setID(EmployeeID);
+    EmployeeID = ID;
 }
 
 void Passenger::setTicket(int IDticket) {

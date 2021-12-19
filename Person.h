@@ -49,7 +49,7 @@ class Employee: public Person {
     std::string EmployeeID;
 
 public:
-    Employee(std::string name, std::string & EmployeeID);
+    explicit Employee(std::string name, std::string email, int phone,std::string ID);
 };
 
 
