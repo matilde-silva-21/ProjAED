@@ -42,6 +42,12 @@ public:
     static Time separateHour(string hour);
 
     static int busMenu(Airport& a1);
+
+    static int trainMenu(Airport &a1);
+
+    static int subwayMenu(Airport &a1);
+
+    static int checkinMenu(Airport& a1);
 };
 
 

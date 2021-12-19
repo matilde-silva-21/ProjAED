@@ -6,7 +6,8 @@
 #include "Airport.h"
 #include <string.h>
 
-Airport::Airport(string name, const Transportation& t1): transporte(BST<Transportation>(t1)) {
+Airport::Airport(string name, const Transportation& t1, CarrinhoTransporte& carrinho): transporte(BST<Transportation>(t1)),
+                                                                                       carrinho(carrinho) {
     this->name = name;
 }
 
@@ -100,4 +101,13 @@ void Airport::addTransporte(const Transportation &t1) {
 
 void Airport::addPassageiro(Passenger &p1) {
     passageiros.push_back(p1);
+}
+
+CarrinhoTransporte Airport::getCarrinhos() {
+    return carrinho;
+}
+
+int Airport::numBagaem() {
+    numBagagem++;
+    return numBagagem-1;
 }

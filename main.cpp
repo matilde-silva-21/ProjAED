@@ -163,8 +163,7 @@ void readTickets(Airport& a1){
     ifstream f;
     f.open("ticket.txt");
     string element, lugar, classe;
-    int IDTicket, numvooPassageiro;
-    bool bagagem;
+    int IDTicket, numvooPassageiro, IDbagagem;
     float price;
 
     while(!f.eof()){
@@ -172,9 +171,11 @@ void readTickets(Airport& a1){
         if(element.empty()){break;}
         stringstream ss(element);
 
-        ss>>IDTicket>>bagagem>>numvooPassageiro>>classe;
+        ss>>IDTicket>>IDbagagem>>numvooPassageiro>>classe;
 
-        Ticket t(IDTicket,bagagem,numvooPassageiro,classe);
+        Bagagem b1(IDbagagem,IDTicket);
+
+        Ticket t(IDTicket,b1,numvooPassageiro,classe);
 
         a1.addTicket(t);
     }
@@ -182,10 +183,10 @@ void readTickets(Airport& a1){
 int main() {
     Time hor(0,0), fred(12,30);
     Transportation dummy("", 0, hor), t1("metro", 0.4, fred);
+    CarrinhoTransporte c1(1,2,3,4);
 
 
-
-    Airport a1("Porto",dummy);
+    Airport a1("Porto",dummy, c1);
     auto avioes = ReadPlanes();
     a1.setAvioes(avioes);
     BST<Transportation> b1 = a1.getTransporte();

@@ -15,18 +15,19 @@
 #include "CarrinhoTransporte.h"
 
 class Airport {
+    int numBagagem=0;
     std::string name;
     std::vector<Airplane> avioes; //avioes pertencentes ao aeroporto
     std::vector<Employee> empregados; //passageiros no aeroporto
     std::vector<Passenger> passageiros; //passageiros no voo
     BST<Transportation> transporte; //todos os transportes do aeroporto
     queue<Service> ToDo, Done;
-    std::vector<CarrinhoTransporte> carrinhos;
+    CarrinhoTransporte carrinho;
     std::vector<Ticket> tickets;
 public:
     void setAvioes(std::vector<Airplane>& avioes);
     void setTransporte(BST<Transportation>& transporte);
-    explicit Airport(string name, const Transportation& t1);
+    Airport(string name, const Transportation& t1,CarrinhoTransporte& carrinho);
     std::vector<Airplane> getAvioes();
     BST<Transportation> getTransporte();
 
@@ -55,6 +56,9 @@ public:
     std::vector<Ticket> getTickets();
 
     void addPlane(Airplane& a1);
+
+    CarrinhoTransporte getCarrinhos();
+    int numBagaem();
 
     int numberOfFilgths();
 

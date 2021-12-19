@@ -5,9 +5,8 @@
 #include "Ticket.h"
 
 
-Ticket::Ticket(int IDTicket, bool bagagem, int numvooPassageiro, std::string classe) {
+Ticket::Ticket(int IDTicket, Bagagem bagagem, int numvooPassageiro, std::string classe):bagagem(bagagem) {
     this->IDTicket=IDTicket;
-    this->bagagem=bagagem;
     this->numvooPassageiro=numvooPassageiro;
     this->classe=classe;
 }
@@ -24,6 +23,6 @@ int Ticket::getNumVoo() {
     return numvooPassageiro;
 }
 
-bool Ticket::getBagagem() {
+Bagagem Ticket::getBagagem() {
     return bagagem;
 }

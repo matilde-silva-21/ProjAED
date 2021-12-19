@@ -3,3 +3,7 @@
 //
 
 #include "Bagagem.h"
+
+int Bagagem::getID() const {
+    return IDbagagem;
+}

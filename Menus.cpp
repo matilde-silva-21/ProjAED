@@ -171,6 +171,7 @@ int Menus::airportMenu(Airport& a1) {
 
     if(choice == 1){
         while(planesMenu1(a1)){}
+        return 1;
     }
 
     else if (choice==0){return 0;}
@@ -182,15 +183,19 @@ int Menus::airportMenu(Airport& a1) {
 
     else if(choice == 6){
         while(servicesMenu(a1)){}
+        return 1;
     }
 
     else if(choice==2){
         while(publicTransMenu(a1)){}
+        return 1;
     }
 
-    return 0;
+    else if(choice==7){while(checkinMenu(a1)){} return 1;}
+    return 1;
 }
 
+/*feito*/
 int Menus::publicTransMenu(Airport& a1) {
     int choice;
     cout << "_______________________________________________\n" << endl;
@@ -208,6 +213,18 @@ int Menus::publicTransMenu(Airport& a1) {
     if(choice == 1){
         busMenu(a1);
     }
+
+    else if(choice==2){
+        while(trainMenu(a1)){}
+    }
+
+    else if(choice==3){
+        while(subwayMenu(a1)){}
+    }
+
+    else if(choice==0){return 0;}
+
+    return 1;
 }
 
 /*falta a parte de eliminar bilhetes(no vetor e no txt file), ou alterar os atributos do mesmo. adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
@@ -247,24 +264,23 @@ int Menus::ticketsMenu(Airport& a1) {
             cout<<"Please enter the number of the flight you wish to buy a ticket for: ";
             cin>>manie;
 
-            cout<<"\nDo you wish to have a carry-on? If yes, enter 1; if not, enter 0: ";
-            cin>>bagagem;
             cout<<"\nWhat class do you wish to travel in? Write one of the follownig; first, economic or business: ";
             cin>>classe;
 
-            Ticket t1(a1.getTickets().size(),bagagem, manie,classe);
+            cout<<"If this ticket belongs to a group trip, enter 1. If not, enter 0: ";
+            cin>>group;
+
+            Bagagem b1(a1.numBagaem(),a1.getTickets().size());
+            Ticket t1(a1.getTickets().size(),b1, manie,classe);
             a1.addTicket(t1);
 
             addTicket(t1);
-
-            cout<<"If this ticket belongs to a group trip, enter 1. If not, enter 0: ";
-            cin>>group;
 
             if(group==0){
                 addPerson(t1.getID(),a1);
             }
             if(group==1){
-                cout<<"\nPlease enter the number of people in yout group: ";
+                cout<<"\nPlease enter the number of people in your group: ";
                 cin>>amount;
                 for(int i=1; i<amount;i++){addPerson(t1.getID(),a1);}
             }
@@ -409,7 +425,7 @@ void Menus::deleteVoo(Airplane &a1, Airport &r1) {
 /*feito*/
 void Menus::addTicket(Ticket &t1) {
     fstream f("ticket.txt", ios::app);
-    f<<t1.getID()<<" "<<t1.getBagagem()<<" "<<t1.getNumVoo()<<" "<<t1.getClasse()<<endl;
+    f<<t1.getID()<<" "<<t1.getBagagem().getID()<<" "<<t1.getNumVoo()<<" "<<t1.getClasse()<<endl;
     f.close();
 }
 
@@ -536,10 +552,10 @@ int Menus::servicesMenu(Airport &a1) {
 
 }
 
-/*falta alterar o ficheiro de texto*/
+/*falta a parte de alterar o ficheiro de texto*/
 int Menus::busMenu(Airport &a1) {
 
-    int choice;
+    int choice,hc;
     cout << "_______________________________________________\n" << endl;
     cout << setw(20) << right << "Bus" << endl;
     cout << "_______________________________________________\n" << endl;
@@ -551,7 +567,7 @@ int Menus::busMenu(Airport &a1) {
     cin>>choice;
 
     if(choice==1){
-        int count=1,hc;
+        int count=1;
         BST<Transportation> copy = a1.getTransporte();
         for(auto it = copy.begin(); it!=copy.end() ; it++){
             if((*it).getTipo()=="bus"){
@@ -560,6 +576,7 @@ int Menus::busMenu(Airport &a1) {
                 count++;
             }
         }
+        if(count==1){cout<<"\nNo bus stations on record.";}
         cout << "\n\nTo go back, enter 0: ";
         cin>>hc;
         return 1;
@@ -578,6 +595,9 @@ int Menus::busMenu(Airport &a1) {
         Time t2 = separateHour(hora);
         Transportation t12("bus",distance,t2);
         a1.addTransporte(t12);
+        cout<<"\nBus Station added successfully! To go back, enter 0: ";
+        cin>>hc;
+        return 1;
     }
 
     else if(choice==3){
@@ -593,13 +613,16 @@ int Menus::busMenu(Airport &a1) {
             }
         }
 
-        cout<<"\nPlease enter the number of the station you wish to delete: ";
+        if(count==1){cout<<"\nNo train stations on record.";}
+        else{cout<<"\nPlease enter the number of the station you wish to delete: ";
         cin>>number;
 
         copy.remove(*aux[number-1]);
         a1.setTransporte(copy);
 
-        cout<<"\nBus station added succesfully! To return enter 0: ";
+        cout<<"\nBus station deleted successfully!";}
+
+        cout<<"\nTo go back, enter 0: ";
         cin>>hc;
         return 1;
     }
@@ -629,4 +652,177 @@ Time Menus::separateHour(string hour) {
     return t1;
 }
 
+/*falta a parte de alterar o ficheiro de texto*/
+int Menus::trainMenu(Airport &a1) {
+
+    int choice,hc;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Train" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "1 - Display all train stations"<<endl;
+    cout << "2 - Add a train station\n";
+    cout << "3 - Delete train station\n";
+    cout << "0 - Return to Transportation Menu\n";
+    cout << "\nPlease enter: ";
+    cin>>choice;
+
+    if(choice==1){
+        int count=1;
+        BST<Transportation> copy = a1.getTransporte();
+        for(auto it = copy.begin(); it!=copy.end() ; it++){
+            if((*it).getTipo()=="train"){
+                cout<<"\nTrain station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
+                    " Distance from Airport: "<<(*it).getDistance()<<endl;
+                count++;
+            }
+        }
+        if(count==1){cout<<"\nNo train stations on record.";}
+        cout << "\n\nTo go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==0){
+        return 0;
+    }
+    else if(choice==2){
+        string hora;
+        float distance;
+        cout<<"\nPlease enter the time at which the train will come, in HH:MM format: ";
+        cin>>hora;
+        cout<<"\nPlease enter the distance of the train station to the airport: ";
+        cin>>distance;
+        Time t2 = separateHour(hora);
+        Transportation t12("bus",distance,t2);
+        a1.addTransporte(t12);
+        cout<<"\nTrain Station added successfully! To go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==3){
+        int count=1,hc,number;
+        BST<Transportation> copy = a1.getTransporte();
+        vector<iteratorBST<Transportation>> aux;
+        for(auto it = copy.begin(); it!=copy.end() ; it++){
+            if((*it).getTipo()=="train"){
+                aux.push_back(it);
+                cout<<"\nTrain station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
+                    " Distance from Airport: "<<(*it).getDistance()<<endl;
+                count++;
+            }
+        }
+
+        if(count==1){cout<<"\nNo train stations on record.";}
+
+        else {cout<<"\nPlease enter the number of the station you wish to delete: ";
+        cin>>number;
+
+        copy.remove(*aux[number-1]);
+        a1.setTransporte(copy);
+
+        cout<<"\nTrain station deleted successfully!";
+        }
+        cout<<"\nTo go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+}
+
+/*falta a parte de alterar o ficheiro de texto*/
+int Menus::subwayMenu(Airport &a1) {
+    int choice,hc;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Subway" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "1 - Display all subway stations"<<endl;
+    cout << "2 - Add a subway station\n";
+    cout << "3 - Delete subway station\n";
+    cout << "0 - Return to Transportation Menu\n";
+    cout << "\nPlease enter: ";
+    cin>>choice;
+
+    if(choice==1){
+        int count=1;
+        BST<Transportation> copy = a1.getTransporte();
+        for(auto it = copy.begin(); it!=copy.end() ; it++){
+            if((*it).getTipo()=="train"){
+                cout<<"\nSubway station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
+                    " Distance from Airport: "<<(*it).getDistance()<<endl;
+                count++;
+            }
+        }
+        if(count==1){cout<<"\nNo Subway stations on record.";}
+        cout << "\n\nTo go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==0){
+        return 0;
+    }
+    else if(choice==2){
+        string hora;
+        float distance;
+        cout<<"\nPlease enter the time at which the subway will come, in HH:MM format: ";
+        cin>>hora;
+        cout<<"\nPlease enter the distance of the subway station to the airport: ";
+        cin>>distance;
+        Time t2 = separateHour(hora);
+        Transportation t12("bus",distance,t2);
+        a1.addTransporte(t12);
+        cout<<"\nSubway Station added successfully! To go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==3){
+        int count=1,hc,number;
+        BST<Transportation> copy = a1.getTransporte();
+        vector<iteratorBST<Transportation>> aux;
+        for(auto it = copy.begin(); it!=copy.end() ; it++){
+            if((*it).getTipo()=="train"){
+                aux.push_back(it);
+                cout<<"\nSubway station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
+                    " Distance from Airport: "<<(*it).getDistance()<<endl;
+                count++;
+            }
+        }
+
+        if(count==1){cout<<"\nNo subway stations on record.";}
+
+        else{cout<<"\nPlease enter the number of the station you wish to delete: ";
+        cin>>number;
+
+        copy.remove(*aux[number-1]);
+        a1.setTransporte(copy);
+
+        cout<<"\nSubway station deleted successfully!";}
+
+        cout<<"\nTo go back, enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+}
+
+/*por verificar*/
+int Menus::checkinMenu(Airport &a1) {
+    int ticknumb,hc;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Automatic Check-In" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "\nPlease enter the number of your ticket: "<<endl;
+    cin>>ticknumb;
+
+    auto it = std::find_if(a1.getTickets().begin(), a1.getTickets().end(), [&ticknumb](Ticket& obj) {return obj.getID() == ticknumb;});
+
+    if(it!=a1.getTickets().end()){
+        a1.getCarrinhos().addBagagem((*it).getBagagem());
+    }
+
+    cout<<"\nCheck-In successful, have a nice flight! To go back enter 0: ";
+    cin>>hc;
+    return 0;
+}
 

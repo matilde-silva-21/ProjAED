@@ -7,9 +7,11 @@
 
 
 class Bagagem {
-    int IDbagagem, IDPassageiro;
+    int IDbagagem, IDTicket;
 
-    Bagagem(int IDbagagem, int IDPassageiro): IDPassageiro(IDPassageiro), IDbagagem(IDbagagem){}
+public:
+    Bagagem(int IDbagagem, int IDTicket): IDTicket(IDTicket), IDbagagem(IDbagagem){}
+    int getID() const;
 };
 
 
