@@ -151,6 +151,7 @@ int Menus::planesMenu1(Airport& r1) {
     return 1;
 }
 
+/*feito*/
 int Menus::airportMenu(Airport& a1) {
     int choice;
     cout << "_______________________________________________\n" << endl;
@@ -160,7 +161,7 @@ int Menus::airportMenu(Airport& a1) {
     cout << "2 - Public Transportation\n"; //opções de transportes publicos perto do aeroporto
     cout << "3 - Tickets\n";
     cout << "4 - Employees"<<endl;
-    cout << "5 - Bagage Transport Car"<<endl;
+    cout << "5 - Baggage Transport Car"<<endl;
     cout << "6 - Services"<<endl;
     cout << "7 - Automatic check-in"<<endl;
     cout << "\n0 - Exit\n";
@@ -194,6 +195,11 @@ int Menus::airportMenu(Airport& a1) {
     else if(choice==7){while(checkinMenu(a1)){} return 1;}
 
     else if(choice==4){while(employeeMenu(a1)){} return 1;}
+
+    else if(choice==5){
+        while(carMenu(a1)){}
+        return 1;
+    }
     return 1;
 }
 
@@ -332,7 +338,7 @@ void Menus::addPlane(Airport &a1) {
     cout<<"\nPlane added succesfully!";
 }
 
-/*esta funcao tem que separar corretamente as datas ainda */
+/*feito*/
 void Menus::addVoo(Airplane& a1, Airport& r1) {
     int n = r1.numberOfFilgths();
     string date, hora, duracao, origem, destino;
@@ -352,41 +358,8 @@ void Menus::addVoo(Airplane& a1, Airport& r1) {
     string cur;
     int count=0;
 
-    for(char c: date){
-        if(c=='/'){
-            if (count==0){day= stoi(cur); cur="";count++;}
-            else if(count==1){month= stoi(cur); cur="";count++;}
-            else if(count==2){year=stoi(cur); cur="";}
-        }
-        else{
-            cur+=c;
-        }
-    }
-
-    cur="";
-    for(char c: hora){
-        if(c==':'){
-            if (count==0){hour1= stoi(cur); cur="";count++;}
-            else if(count==1){minute1= stoi(cur);cur=""; }
-        }
-        else{
-            cur+=c;
-        }
-    }
-
-    cur="";
-    for(char c: duracao){
-        if(c==':'){
-            if (count==0){hour2= stoi(cur);cur=""; count++;}
-            else if(count==1){minute2= stoi(cur); cur="";}
-        }
-        else{
-            cur+=c;
-        }
-    }
-
-    Time t1(day,month,year,hour1,minute1);
-    Time t2(hour2,minute2);
+    Time t1 = separateDateandHour(date,hora);
+    Time t2 = separateHour(duracao);
 
     Flight f1(n,t1,t2);
     f1.setOrigem(origem);
@@ -399,7 +372,7 @@ void Menus::addVoo(Airplane& a1, Airport& r1) {
     addFlightFile(a1);
 }
 
-/*esta funcao tem que tratar de criar ficheiros e meter la dentro voos*/
+/*feito*/
 void Menus::addFlightFile(Airplane &a1) {
     fstream f("aviao"+a1.getMatricula()+".txt", ios::out | ios::in);
     for(Flight& f1: a1.getPlanoVoo()){
@@ -913,5 +886,61 @@ int Menus::employeeMenu(Airport &a1) {
 
     return 1;
 
+}
+
+/*falta meter e tirar as coisas fo ficheiro txt*/
+int Menus::carMenu(Airport &a1) {
+    int choice,numb,hc;
+    cout << "_______________________________________________\n" << endl;
+    cout << setw(20) << right << "Baggage Transport Car" << endl;
+    cout << "_______________________________________________\n" << endl;
+    cout << "1 - Change the amount of carriages"<<endl;
+    cout << "2 - Change the amount of stacks per carriages"<<endl;
+    cout << "3 - Change the amount of baggage per stack"<<endl;
+    cout << "4 - Display all baggage on transport"<<endl;
+    cout << "0 - Go back"<<endl;
+    cout << "\nPlease enter: ";
+
+    cin>>choice;
+
+    if(choice==0){return 0;}
+
+    else if(choice==1){
+        cout << "\nThe current amount of carriages is "<<a1.getCarrinhos().getncarruagens()<<". Please enter the new amount: ";
+        cin >> numb;
+        a1.getCarrinhos().setncarruagens(numb);
+        cout << "\nAmount of carriages changed successfully! To go back, please enter 0: ";
+        cin >> hc;
+        return 1;
+    }
+
+    else if(choice==2){
+        cout << "\nThe current amount of stacks per carriage is "<<a1.getCarrinhos().getnpilhas()<<". Please enter the new amount: ";
+        cin>>numb;
+        a1.getCarrinhos().setnpilhas(numb);
+        cout<<"\nAmount of carriages changed successfully! To go back, please enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==3){
+        cout << "\nThe current amount of baggage per stack is "<<a1.getCarrinhos().getnmalas()<<". Please enter the new amount: ";
+        cin>>numb;
+        a1.getCarrinhos().setnmalas(numb);
+        cout<<"\nAmount of baggage changed successfully! To go back, please enter 0: ";
+        cin>>hc;
+        return 1;
+    }
+
+    else if(choice==4){
+        auto copy = a1.getCarrinhos().getCar();
+        for (auto it=copy.begin(); it!=copy.end() ; it++){
+            cout << "\nBaggage number "<<it->top().getID();
+        }
+        if(copy.empty()){cout<<"\nNo baggage on the car. To go back, enter 0: "; cin>>hc; return 1;}
+        else{cout<<"\nTo go back, enter 0: "; cin>>hc; return 1;}
+    }
+
+    return 1;
 }
 

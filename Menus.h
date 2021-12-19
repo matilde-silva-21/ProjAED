@@ -50,6 +50,8 @@ public:
     static int checkinMenu(Airport& a1);
 
     static int employeeMenu(Airport& a1);
+
+    static int carMenu(Airport& a1);
 };
 
 

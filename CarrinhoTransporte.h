@@ -21,6 +21,8 @@ public:
     void setnpilhas(int n);
     void setnmalas(int n);
 
+    std::vector<std::stack<Bagagem>> getCar();
+
     int getncarruagens() const;
     int getnpilhas() const;
     int getnmalas() const;

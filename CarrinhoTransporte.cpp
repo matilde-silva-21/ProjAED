@@ -46,3 +46,7 @@ void CarrinhoTransporte::removeBagagem() {
     std::stack f1 = carruagens.back();
     f1.pop();
 }
+
+std::vector<std::stack<Bagagem>> CarrinhoTransporte::getCar() {
+    return carruagens;
+}
