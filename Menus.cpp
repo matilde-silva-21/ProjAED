@@ -235,7 +235,7 @@ int Menus::publicTransMenu(Airport& a1) {
     return 1;
 }
 
-/*falta a parte de eliminar bilhetes(no vetor e no txt file), ou alterar os atributos do mesmo. adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
+/*falta a parte de eliminar bilhetes(no vetor e no txt file) e adicionar os bilhetes ao txt file, ~tambem falta alterar os atributos dos bilhetes: adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
 int Menus::ticketsMenu(Airport& a1) {
     int choice, manie, main;
     cout << "_______________________________________________\n" << endl;
@@ -528,7 +528,7 @@ int Menus::servicesMenu(Airport &a1) {
     return 1;
 }
 
-/*falta a parte de alterar o ficheiro de texto*/
+/*falta a parte de inserir e eliminar paragens de bus no ficheiro de texto*/
 int Menus::busMenu(Airport &a1) {
 
     int choice,hc;
@@ -605,6 +605,7 @@ int Menus::busMenu(Airport &a1) {
 
 }
 
+/*feito*/
 Time Menus::separateHour(string hour) {
     int minute=-1, hour2=-1;
     char * pch;
@@ -628,7 +629,7 @@ Time Menus::separateHour(string hour) {
     return t1;
 }
 
-/*falta a parte de alterar o ficheiro de texto*/
+/*falta a parte de inserir e eliminar paragens de train no ficheiro de texto*/
 int Menus::trainMenu(Airport &a1) {
 
     int choice,hc;
@@ -706,7 +707,7 @@ int Menus::trainMenu(Airport &a1) {
 
 }
 
-/*falta a parte de alterar o ficheiro de texto*/
+/*falta a parte de inserir e eliminar paragens de subway no ficheiro de texto*/
 int Menus::subwayMenu(Airport &a1) {
     int choice,hc;
     cout << "_______________________________________________\n" << endl;
@@ -802,7 +803,7 @@ int Menus::checkinMenu(Airport &a1) {
     return 0;
 }
 
-/*falta meter e tirar as coisas do ficheiro de txt*/
+/*falta a parte de inserir e eliminar empregados do ficheiro de txt*/
 int Menus::employeeMenu(Airport &a1) {
     int choice,hc, count=0, phone;
     string name, numb, email;
@@ -888,7 +889,7 @@ int Menus::employeeMenu(Airport &a1) {
 
 }
 
-/*falta meter e tirar as coisas fo ficheiro txt*/
+/*falta a parte de escrever e retirar do ficheiro de texto as malas que estao atualmente no carrinho*/
 int Menus::carMenu(Airport &a1) {
     int choice,numb,hc;
     cout << "_______________________________________________\n" << endl;
