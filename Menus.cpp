@@ -109,7 +109,7 @@ int Menus::planesMenu2(Airplane& a1, int &check, Airport& r1) {
     return 1;
 }
 
-/*feito (a excecao das funcoes que chama que algumas estao incompletas mas se arranjar as outras esta ja esta feita)*/
+/*feito*/
 int Menus::planesMenu1(Airport& r1) {
     int number;
 
@@ -235,7 +235,7 @@ int Menus::publicTransMenu(Airport& a1) {
     return 1;
 }
 
-/*falta a parte de eliminar bilhetes(no vetor e no txt file) e adicionar os bilhetes ao txt file, ~tambem falta alterar os atributos dos bilhetes: adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
+/*falta a possibilidade de eliminar ou alterar os atributos dos bilhetes: adicionar uma(ou mais) pessoas novas ao registo e associar a elas o bilhete*/
 int Menus::ticketsMenu(Airport& a1) {
     int choice, manie, main;
     cout << "_______________________________________________\n" << endl;
@@ -365,28 +365,14 @@ void Menus::addVoo(Airplane& a1, Airport& r1) {
     f1.setOrigem(origem);
     f1.setDestino(destino);
 
+    //esta funcao escreve automaticamente no ficheiro
     a1.addFlight(f1);
 
     cout<<"\nPlane added successfully!"<<endl;
 
-    addFlightFile(a1);
 }
 
-/*feito*/
-void Menus::addFlightFile(Airplane &a1) {
-    fstream f("aviao"+a1.getMatricula()+".txt", ios::out | ios::in);
-    for(Flight& f1: a1.getPlanoVoo()){
-        f<<f1.getNumVoo();
-        f1.getData().printDate();
-        f1.getData().printhour();
-        f<<" ";
-        f1.getDuracao().printhour();
-        f<<" "<<f1.getDestino()<<" "<<f1.getOrigem()<<endl;
-    }
-    f.close();
-}
-
-/*falta a parte em que tira do ficheiro de texto o voo*/
+/*por verificar*/
 void Menus::deleteVoo(Airplane &a1, Airport &r1) {
     int numb;
     cout<<"Please enter the number of the flight you wish to delete: ";
@@ -394,6 +380,7 @@ void Menus::deleteVoo(Airplane &a1, Airport &r1) {
 
     auto it = std::find_if(a1.getPlanoVoo().begin(), a1.getPlanoVoo().end(), [&numb](Flight obj) {return obj.getNumVoo() == numb;});
 
+    //esta funcao tira do ficheiro de txt automaticamente
     a1.removeFlight(*it);
 }
 
@@ -433,7 +420,7 @@ void Menus::addPerson(int IDticket, Airport& a1) {
 
 }
 
-/*feito mas falta verificar*/
+/*por verificar*/
 int Menus::servicesMenu(Airport &a1) {
     int choice, IDemployee, hc;
     string type, date, hour;
@@ -469,6 +456,7 @@ int Menus::servicesMenu(Airport &a1) {
 
         fstream fire("servicosToDo.txt", ios::app);
         fire<<type<<" "<<date<<" "<<hour<<" "<<IDemployee<<endl;
+        fire.close();
 
         cout<<"\nService added succesfully! To return enter 0: ";
         cin>>hc;
@@ -528,7 +516,7 @@ int Menus::servicesMenu(Airport &a1) {
     return 1;
 }
 
-/*falta a parte de inserir e eliminar paragens de bus no ficheiro de texto*/
+/*por verificar*/
 int Menus::busMenu(Airport &a1) {
 
     int choice,hc;
@@ -603,6 +591,7 @@ int Menus::busMenu(Airport &a1) {
         return 1;
     }
 
+    return 1;
 }
 
 /*feito*/
@@ -629,7 +618,7 @@ Time Menus::separateHour(string hour) {
     return t1;
 }
 
-/*falta a parte de inserir e eliminar paragens de train no ficheiro de texto*/
+/*por verificar*/
 int Menus::trainMenu(Airport &a1) {
 
     int choice,hc;
@@ -704,10 +693,11 @@ int Menus::trainMenu(Airport &a1) {
         cin>>hc;
         return 1;
     }
+    return 1;
 
 }
 
-/*falta a parte de inserir e eliminar paragens de subway no ficheiro de texto*/
+/*por verificar*/
 int Menus::subwayMenu(Airport &a1) {
     int choice,hc;
     cout << "_______________________________________________\n" << endl;
@@ -781,6 +771,8 @@ int Menus::subwayMenu(Airport &a1) {
         cin>>hc;
         return 1;
     }
+
+    return 1;
 }
 
 /*por verificar*/
@@ -795,7 +787,8 @@ int Menus::checkinMenu(Airport &a1) {
     auto it = std::find_if(a1.getTickets().begin(), a1.getTickets().end(), [&ticknumb](Ticket& obj) {return obj.getID() == ticknumb;});
 
     if(it!=a1.getTickets().end()){
-        a1.getCarrinhos().addBagagem((*it).getBagagem());
+        if(a1.getCarrinhos().addBagagem(Bagagem (a1.numBagaem(),(*it).getID()))){}
+        else{cout<<"No space available in the baggage transport car. Check-in unsuccessful, to go back, enter 0: ";cin>>hc;return 0;}
     }
 
     cout<<"\nCheck-In successful, have a nice flight! To go back enter 0: ";
@@ -803,7 +796,7 @@ int Menus::checkinMenu(Airport &a1) {
     return 0;
 }
 
-/*falta a parte de inserir e eliminar empregados do ficheiro de txt*/
+/*por verificar*/
 int Menus::employeeMenu(Airport &a1) {
     int choice,hc, count=0, phone;
     string name, numb, email;
@@ -856,6 +849,7 @@ int Menus::employeeMenu(Airport &a1) {
         auto it = find_if(a1.getEmpregados().begin(),a1.getEmpregados().end(),[&numb](Employee& e1){return e1.getID()==numb;});
 
         if(it!=a1.getEmpregados().end()){
+            //esta funcao altera ja o ficheiro de texto
             a1.removeEmpregado(it);
             cout<<"\nEmployee removed successfully! To go back, enter 0: ";
             cin>>hc;
@@ -878,6 +872,7 @@ int Menus::employeeMenu(Airport &a1) {
         cout << "\nPlease enter the employee's phone number: ";
         cin>>phone;
 
+        //esta funcao altera ja o ficheiro de texto
         a1.addEmpregado(Employee(name,email,phone, to_string(a1.getEmpregados().size())));
 
         cout<<"\nEmployee added succesfully. To go back, enter 0: ";
@@ -889,7 +884,7 @@ int Menus::employeeMenu(Airport &a1) {
 
 }
 
-/*falta a parte de escrever e retirar do ficheiro de texto as malas que estao atualmente no carrinho*/
+/*por verificar*/
 int Menus::carMenu(Airport &a1) {
     int choice,numb,hc;
     cout << "_______________________________________________\n" << endl;

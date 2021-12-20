@@ -3,6 +3,7 @@
 //
 
 #include "CarrinhoTransporte.h"
+#include <fstream>
 
 CarrinhoTransporte::CarrinhoTransporte(int IDCarrinho, int ncarruagens, int npilhas, int nmalas): IDcarrinho(IDCarrinho), ncarruagens(ncarruagens), npilhas(npilhas), nmalas(nmalas) {}
 
@@ -36,9 +37,14 @@ bool CarrinhoTransporte::addBagagem(Bagagem b1) {
     for(std::stack f1: carruagens){
         if(carruagens.size() < getnpilhas()){
             f1.push(b1);
+            std::fstream f("carrinhoTransporte.txt", std::ios_base::app);
+            f << b1.getID() << " "<<b1.getTick()<<std::endl;
+            f.close();
             return true;
         }
+
     }
+
     return false;
 }
 

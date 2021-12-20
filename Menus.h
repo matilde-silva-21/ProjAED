@@ -27,8 +27,6 @@ public:
 
     static void addVoo(Airplane& a1, Airport& r1);
 
-    static void addFlightFile(Airplane& a1);
-
     static void deleteVoo(Airplane& a1, Airport& r1);
 
     static void addTicket(Ticket& t1);

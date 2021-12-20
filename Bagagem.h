@@ -10,8 +10,9 @@ class Bagagem {
     int IDbagagem, IDTicket;
 
 public:
-    Bagagem(int IDbagagem, int IDTicket): IDTicket(IDTicket), IDbagagem(IDbagagem){}
+    explicit Bagagem(int IDbagagem, int IDTicket): IDTicket(IDTicket), IDbagagem(IDbagagem){}
     int getID() const;
+    int getTick() const;
 };
 
 

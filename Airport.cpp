@@ -18,6 +18,11 @@ void Airport::setAvioes(std::vector<Airplane> &avioes) {
 
 void Airport::setTransporte(BST<Transportation> &transporte) {
     Airport::transporte = transporte;
+    fstream f1("transporte.txt");
+    for(auto it=transporte.begin(); it!=transporte.end(); it++){
+        f1<<(*it).getTipo()<<" "<<(*it).getSchedule().printhour()<<" "<<(*it).getDistance()<<endl;
+    }
+    f1.close();
 }
 
 std::vector<Airplane> Airport::getAvioes() {
@@ -118,8 +123,22 @@ std::vector<Employee> Airport::getEmpregados() {
 
 void Airport::removeEmpregado(vector<Employee>::iterator e1) {
     empregados.erase(e1);
+    sort(empregados.begin(),empregados.end());
+    fstream f1("funcionarios.txt");
+    for(Employee& e1: empregados){
+        f1<<e1.getName()<<" "<<e1.getID()<<" "<<e1.getPhone()<<" "<<e1.getEmail()<<endl;
+    }
+    f1.close();
 }
 
 void Airport::addEmpregado(Employee e1) {
     empregados.push_back(e1);
+    sort(empregados.begin(),empregados.end());
+    fstream f1("funcionarios.txt");
+    for(Employee& e1: empregados){
+        f1<<e1.getName()<<" "<<e1.getID()<<" "<<e1.getPhone()<<" "<<e1.getEmail()<<endl;
+    }
+    f1.close();
 }
+
+

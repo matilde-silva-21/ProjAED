@@ -32,7 +32,6 @@ public:
     BST<Transportation> getTransporte();
 
     void addTransporte(const Transportation& t1);
-    void removeTransporte(Transportation& t1);
 
     void addService(Service s1); //adicionar servico a ToDO
     void removeService(); //remover servico de Tdo e verificar se foi removido corretamente

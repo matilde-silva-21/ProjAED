@@ -49,6 +49,9 @@ class Employee: public Person {
     std::string EmployeeID;
 
 public:
+    bool operator<(const Employee& e1){
+        return EmployeeID<e1.EmployeeID;
+    }
     explicit Employee(std::string name, std::string email, int phone,std::string ID);
 };
 
