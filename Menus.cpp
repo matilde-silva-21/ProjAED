@@ -75,11 +75,7 @@ int Menus::planesMenu2(Airplane& a1, int &check, Airport& r1) {
         else{
             cout << endl<<"\nFlight plan of plane "<<a1.getMatricula()<< endl;
             for(auto & it : a1.getPlanoVoo()){
-            cout<< "Flight number "<< it.getNumVoo() <<": "<<endl;
-            cout<<"Date: ";
-            it.getData().printDate();
-            cout<<" at: ";
-            it.getData().printhour();
+            cout<< "Flight number "<< it.getNumVoo() <<": "<<"Date: " << it.getData().printDate()<<" at "<<it.getData().printhour()<<". Flight duration is "<<it.getDuracao().printhour();
             cout<<" Origin: "<<it.getOrigem()<<" Destination: "<<it.getDestino()<<endl;
         }
 
@@ -714,7 +710,7 @@ int Menus::subwayMenu(Airport &a1) {
         int count=1;
         BST<Transportation> copy = a1.getTransporte();
         for(auto it = copy.begin(); it!=copy.end() ; it++){
-            if((*it).getTipo()=="train"){
+            if((*it).getTipo()=="subway"){
                 cout<<"\nSubway station number "<<count<<": Scheduled time: "<<(*it).getSchedule().printhour()<<
                     " Distance from Airport: "<<(*it).getDistance()<<endl;
                 count++;

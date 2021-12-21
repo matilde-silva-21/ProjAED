@@ -139,27 +139,17 @@ void readFlights(Airport& a1, string matricula) {
         ifstream f;
         f.open("aviao"+matricula+".txt");
         while(!f.eof()){
-            std::string origem, destino, element, aux="";
-            int day,month,year,starthour, startminute, durationhour,durationminute, numVoo, count=0;
-
+            std::string origem, destino, element, data , hora, duracao;
+            int numVoo;
             getline(f, element);
             if(element.empty()){break;}
-            char dud[element.size()+1];
-            std::strcpy(dud,element.c_str());
 
-            char* delim = strtok(dud, " :/");
+            stringstream ss(element);
 
-            while(delim!=NULL){
-                aux+=(delim);
-                aux+=" ";
-                delim = strtok(NULL, " :/");
-            }
+            ss>>numVoo>>data>>hora>>duracao>>origem>>destino;
 
-            stringstream ss(aux);
 
-            ss>>numVoo>>day>>month>>year>>starthour>>startminute>>durationhour>>durationminute>>origem>>destino;
-
-            Flight f1(numVoo, Time(day,month,year,starthour,startminute), Time(durationhour, durationminute));
+            Flight f1(numVoo, Menus::separateDateandHour(data,hora), Menus::separateHour(hora));
             f1.setDestino(destino);
             f1.setOrigem(origem);
             f.close();
@@ -193,8 +183,11 @@ void readTickets(Airport& a1){
     }
 }
 
-void readBST(BST<Transportation>& b1){
+BST<Transportation> readBST(){
 
+    Time hor(0,0);
+    Transportation dummy("", 0, hor);
+    BST<Transportation> b1(dummy);
     string element,tipo,horario;
     float distance;
     ifstream f1("transporte.txt");
@@ -205,6 +198,7 @@ void readBST(BST<Transportation>& b1){
         Transportation t1(tipo,distance,r);
         b1.insert(t1);
     }
+    return b1;
 
 }
 
@@ -221,17 +215,11 @@ void readCarrinho(CarrinhoTransporte& c1){
 int main() {
     /*ordem de inicializacao: *carrinho transporte,*BST,*airport,*airplanes,*flights,*tickets,*funcionarios,*passageiros,*ToDo, *Done*/
 
-
-    Time hor(0,0);
-    Transportation dummy("", 0, hor);
     CarrinhoTransporte c1(1,2,3,4);
     readCarrinho(c1);
 
 
-    Airport a1("Porto",dummy, c1);
-    auto b1 = a1.getTransporte();
-    readBST(b1);
-    a1.setTransporte(b1);
+    Airport a1("Porto",readBST(), c1);
     auto avioes = ReadPlanes();
     a1.setAvioes(avioes);
     for(auto it = avioes.begin(); it!=avioes.end() ; it++){readFlights(a1,it->getMatricula());}

@@ -6,7 +6,7 @@
 #include "Airport.h"
 #include <string.h>
 
-Airport::Airport(string name, const Transportation& t1, CarrinhoTransporte& carrinho): transporte(BST<Transportation>(t1)),
+Airport::Airport(string name, BST<Transportation> t1, CarrinhoTransporte& carrinho): transporte(t1),
                                                                                        carrinho(carrinho) {
     this->name = name;
 }
@@ -101,6 +101,10 @@ int Airport::numberOfFilgths() {
 }
 
 void Airport::addTransporte(const Transportation &t1) {
+    transporte.insert(t1);
+    fstream f("transporte.txt", std::ios_base::app);
+    f<<t1.getTipo()<<" "<<t1.getSchedule().printhour()<<" "<<t1.getDistance()<<endl;
+    f.close();
 
 }
 

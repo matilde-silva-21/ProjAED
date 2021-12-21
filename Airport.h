@@ -27,7 +27,7 @@ class Airport {
 public:
     void setAvioes(std::vector<Airplane>& avioes);
     void setTransporte(BST<Transportation>& transporte);
-    Airport(string name, const Transportation& t1,CarrinhoTransporte& carrinho);
+    Airport(string name, BST<Transportation> t1,CarrinhoTransporte& carrinho);
     std::vector<Airplane> getAvioes();
     BST<Transportation> getTransporte();
 
