@@ -1,5 +1,5 @@
-Gertrudes 4
-Manuel 2
-Miguel 4
-Lara 1
-Cristina 6
+Gertrudes 4 919099998 gertrudes@gmail.com
+Manuel 2 923657403 manuel@gmail.com
+Miguel 4 974037028 miguel@gmail.com
+Lara 1 946373828 lara@gmail.com
+Cristina 6 937892367 cristina@gmail.com

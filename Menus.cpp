@@ -215,7 +215,7 @@ int Menus::publicTransMenu(Airport& a1) {
     cin>>choice;
 
     if(choice == 1){
-        busMenu(a1);
+        while(busMenu(a1)){}
     }
 
     else if(choice==2){
@@ -797,7 +797,7 @@ int Menus::employeeMenu(Airport &a1) {
     int choice,hc, count=0, phone;
     string name, numb, email;
     cout << "_______________________________________________\n" << endl;
-    cout << setw(20) << right << "Airport" << endl;
+    cout << setw(20) << right << "Employees" << endl;
     cout << "_______________________________________________\n" << endl;
     cout << "1 - Display list of all employees"<<endl;
     cout << "2 - Display list of tasks assigned to an employee"<<endl;

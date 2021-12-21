@@ -88,16 +88,16 @@ std::queue<Service> ReadServicesToDo(){
     f.open("servicosToDo.txt");
     string element;
     while(!f.eof()){
-        string tipo, employeeID;
-        int hora, minuto, dia, mes, ano;
+        string tipo, employeeID, data, hora;
 
 
         getline(f, element);
         if(element.empty()){break;}
         stringstream aux(element);
 
-        aux >> tipo >> dia >> mes >> ano >> hora >> minuto >> employeeID;
-        Time t(mes, ano, dia, hora, minuto);
+        aux >> tipo >>data >>hora >> employeeID;
+
+        Time t = Menus::separateDateandHour(data,hora);
         Service c(tipo, t, employeeID);
         servicos.push(c);
     }
@@ -111,16 +111,16 @@ std::queue<Service> ReadServicesDone(){
     f.open("servicosDone.txt");
     string element;
     while(!f.eof()){
-        string tipo, employeeID;
-        int hora, minuto, dia, mes, ano;
+        string tipo, employeeID, data, hora;
 
 
         getline(f, element);
         if(element.empty()){break;}
         stringstream aux(element);
 
-        aux >> tipo >> dia >> mes >> ano >> hora >> minuto >> employeeID;
-        Time t(mes, ano, dia, hora, minuto);
+        aux >> tipo >>data >>hora >> employeeID;
+
+        Time t = Menus::separateDateandHour(data,hora);
         Service c(tipo, t, employeeID);
         servicos.push(c);
     }
