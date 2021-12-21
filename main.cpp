@@ -221,6 +221,7 @@ void readCarrinho(CarrinhoTransporte& c1){
 int main() {
     /*ordem de inicializacao: *carrinho transporte,*BST,*airport,*airplanes,*flights,*tickets,*funcionarios,*passageiros,*ToDo, *Done*/
 
+
     Time hor(0,0);
     Transportation dummy("", 0, hor);
     CarrinhoTransporte c1(1,2,3,4);

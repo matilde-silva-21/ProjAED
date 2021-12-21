@@ -20,8 +20,8 @@ Time Menus::separateDateandHour(string date, string hour) {
     {
         // set the variables
         int num = atoi(pch);
-        if(month == -1) day = num;
-        else if(day == -1) month = num;
+        if(day == -1) day = num;
+        else if(month == -1) month = num;
         else if(year == -1) year = num;
 
         // continue splitting the string
